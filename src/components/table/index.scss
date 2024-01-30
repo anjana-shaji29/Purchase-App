@@ -1,0 +1,27 @@
+table, thead, tbody, tr,th,td{
+    padding: 0;
+    margin:0;
+    border:0;
+}
+
+.table-wrap {
+    width:100%;
+
+    .material-symbols-outlined{
+        color:#004FFA;
+    }
+   tr:hover{
+    background: rgb(185, 179, 179);
+   }
+    th, td {
+        padding: 5px;
+      }
+    
+    
+  }
+  
+  
+
+ 
+
+ 
