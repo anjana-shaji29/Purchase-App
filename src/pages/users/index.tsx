@@ -12,11 +12,10 @@ const PageUsers = () => {
 
     const [search, setSearch] = useState(String);
     
-    const columns = [{label: "Name", 
+    const columns = [{label: "Name", accessor: "name", sortable: true, basecolumn : true },
+    {label: "Username", accessor: "username", sortable: true, basecolumn : false }, 
     
-    accessor: "name", sortable: true, sortcolumn : "name" }, 
-
-     {label: "Action", render:(row : User) => {
+     {label: "Actions", render:(row : User) => {
         return row.guid;
     }, accessor: "guid" }, ]
 
