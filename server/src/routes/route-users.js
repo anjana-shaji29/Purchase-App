@@ -98,7 +98,7 @@ RouteUsers.delete("/remove", (req, res) => {
                 const { guid } = req.body;
                 UserModel.deleteOne({ guid, userId }).then((result) => {
                     if (result && result?.deletedCount > 0) {
-                        response200(res, `Purchase deleted!`, {});
+                        response200(res, `User deleted!`, {});
                     } else {
                         response403(res, `Something went wrong!`);
                     }

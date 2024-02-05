@@ -11,6 +11,7 @@ const Header = () => {
     const { userDetails } = useAppSelector((state) => state.auth);
     console.log(userDetails);
 
+ 
     return (
         <div className='header-wrap'>
             <div className='logo-container'>
