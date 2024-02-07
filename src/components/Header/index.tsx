@@ -2,14 +2,20 @@ import React from 'react';
 import './index.scss';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { logOut } from '../../redux/authSlice.ts';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 
 
 const Header = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { userDetails } = useAppSelector((state) => state.auth);
     console.log(userDetails);
+
+const handleLogOut = ()=> {
+    dispatch(logOut());
+    navigate('/');
+}
 
  
     return (
@@ -28,7 +34,7 @@ const Header = () => {
                             <div className='dropDown-box'>
                                 <span className="material-symbols-outlined">account_circle</span>
                                 <h6> {userDetails.username} </h6> <br />
-                                <button className='btn-primary' onClick={() => dispatch(logOut())}>Logout</button>
+                                <button className='btn-primary' onClick={handleLogOut}>Logout</button>
                             </div>
                         </DropdownButton>
                         </li>

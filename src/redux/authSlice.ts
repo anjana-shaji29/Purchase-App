@@ -57,6 +57,7 @@ export const authSlice = createSlice({
           // console.log(action);
           state.userDetails = action?.payload?.data?.data;
           
+          
         })
       
     },
