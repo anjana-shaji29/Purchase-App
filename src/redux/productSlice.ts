@@ -21,6 +21,10 @@ export const getProducts = createAsyncThunk("getProducts", async (_, state : any
   return fetchHandler(state,"http://localhost:8085/products/list","GET", {} );
 })
 
+export const deleteProduct = createAsyncThunk("deleteProducts", async(_,state: any) => {
+   return fetchHandler(state, "http://localhost:8085/products/remove","DELETE", {})
+})
+
 
 export const productSlice = createSlice({
    name: 'products',
