@@ -53,13 +53,6 @@ export const authSlice = createSlice({
           state.jwt = action?.payload?.data?.jwt;
         })
 
-        .addCase(signup.fulfilled, (state, action) => {
-          // console.log(action);
-          state.userDetails = action?.payload?.data?.data;
-          
-          
-        })
-      
     },
     
   })

@@ -1,26 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
-import { getProducts } from '../../redux/productSlice.ts';
+import { getProducts, addProduct, deleteProduct } from '../../redux/productSlice.ts';
 import "./index.scss";
 import Table from '../../components/table/index.tsx';
 import { ProductItem } from '../../redux/productSlice.ts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from '../../components/Form/index.tsx';
+import { Link } from 'react-router-dom';
+import Toast from 'react-bootstrap/Toast';
+import ProductForm from '../../components/ProductForm/index.tsx';
 
 const PageProducts = () => {
 
     const { userDetails } = useAppSelector(state => state.auth);
+    const imgUrl = "http://localhost:8085/";
 
     const [show, setShow] = useState<boolean>(false);
     const [showFormModal, setShowFormModal] = useState<boolean>(false);
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
-
+    const [showToast, setShowToast] = useState<boolean>(false);
     const [search, setSearch] = useState(String);
+    const [error, setError] = useState<string>("");
+   
 
     const columns = [{
         label: "Image", accessor: "image", sortable: false, basecolumn: false,
-        // render:(row: ProductItem) => <image src={} alt={row.name}/>
+        render: (row: ProductItem) => <img style={{ width: "50px" }} src={`${imgUrl}${row.image}`} alt={row.name} />
 
     },
     { label: "Name", accessor: "name", sortable: true, basecolumn: true },
@@ -28,22 +34,26 @@ const PageProducts = () => {
     {
         label: "Actions", render: (row: ProductItem) => {
             return <div>
-                <span onClick={() => {
+                {userDetails && userDetails.type === 1 ? <span className="material-symbols-outlined"> edit </span>
+                    : <span className="material-symbols-outlined"> local_mall  </span>}
+
+                {userDetails && userDetails.type === 1 && <span onClick={() => {
                     setSelectedProductId(row.guid);
                     setShow(true);
                 }}
 
                     style={{ color: "red" }} className="material-symbols-outlined">
                     delete
-                </span> </div>;
+                </span >}  </div>;
         }, accessor: "guid"
     },]
 
     const productListOriginal = useAppSelector((state) => state.products.productList);
     const [productList, setProductList] = useState(Array<ProductItem>);
-
-
     const reduxDispatch = useAppDispatch();
+
+
+   
     useEffect(() => {
         reduxDispatch(getProducts())
 
@@ -80,6 +90,7 @@ const PageProducts = () => {
     const toggleFormModal = () => {
         setShowFormModal(!showFormModal);
     }
+
 
     return (
         <div>
@@ -122,24 +133,30 @@ const PageProducts = () => {
                 </div>
 
 
-                {/* {showFormModal && (
-           <>
-            <div className='overlay' onClick={toggleFormModal}
-              style={{position: 'fixed', top:0, left:0,
-             width:"100%", height: "100%", background:"rgba(0, 0, 0, 0.6)",
-             zIndex:1000
-            
-            }}> </div>
-            <div
-                style={{ display: showFormModal ? 'block': 'none', position: 'fixed', top:"50%",
-                left:"50%", transform: 'translate(-50%, -50%)', zIndex:1001,
-            }} >
-           
-                <Modal.Dialog>
-                <Form />
-                </Modal.Dialog>
-            </div> 
-              </> ) } */}
+                {showFormModal && (
+                    <>
+                        <div className='overlay' onClick={toggleFormModal}
+                            style={{
+                                position: 'fixed', top: 0, left: 0,
+                                width: "100%", height: "100%", background: "rgba(0, 0, 0, 0.6)",
+                                zIndex: 1000
+
+                            }}> </div>
+                        <div
+                            style={{
+                                display: showFormModal ? 'block' : 'none', position: 'fixed', top: "50%",
+                                left: "50%", transform: 'translate(-50%, -50%)', zIndex: 1001,
+                            }} >
+
+                            <Modal.Dialog>
+                               
+                                <>
+                                   <ProductForm />
+                                   
+                                </>
+                            </Modal.Dialog>
+                        </div>
+                    </>)}
 
             </div>
         </div>

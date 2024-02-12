@@ -25,6 +25,7 @@ export const deleteUser =  createAsyncThunk("deleteUser", async (guid, state : a
    return fetchHandler(state,`http://localhost:8085/users/remove`,"DELETE", {guid} );
  })
 
+
 export const userSlice = createSlice({
    name: 'users',
    initialState,
@@ -39,6 +40,7 @@ export const userSlice = createSlice({
             console.log(action);
             state.userList = action?.payload?.data?.data;
          })
+       
          
    },
 

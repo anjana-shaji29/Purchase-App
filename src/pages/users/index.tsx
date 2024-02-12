@@ -9,7 +9,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from '../../components/Form/index.tsx';
  
 const PageUsers = () => {
- 
+    
     const [show, setShow] = useState<boolean>(false);
     const [showFormModal,  setShowFormModal] = useState <boolean>(false);
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -100,7 +100,7 @@ const PageUsers = () => {
             >
                 <Modal.Dialog>
                     <Modal.Header closeButton onClick={handleClose}>
-                        <Modal.Title>Buy It Now </Modal.Title>
+                        <Modal.Title> Buy It Now </Modal.Title>
                     </Modal.Header>
  
                     <Modal.Body>

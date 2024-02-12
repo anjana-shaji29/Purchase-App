@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchHandler } from "./handleFetch.ts";
+import { useFetcher } from "react-router-dom";
 
-interface ProductItem {
+export interface ProductItem {
    guid: string;
    name: string;
    details: string;
@@ -21,8 +22,12 @@ export const getProducts = createAsyncThunk("getProducts", async (_, state : any
   return fetchHandler(state,"http://localhost:8085/products/list","GET", {} );
 })
 
-export const deleteProduct = createAsyncThunk("deleteProducts", async(_,state: any) => {
-   return fetchHandler(state, "http://localhost:8085/products/remove","DELETE", {})
+export const deleteProduct = createAsyncThunk("deleteProduct", async(guid, state: any) => {
+   return fetchHandler(state, "http://localhost:8085/products/remove","DELETE", {guid})
+})
+
+export const addProduct = createAsyncThunk("addProduct", async(_, state: any) => {
+   return fetchHandler(state,"http://localhost:8085/products/add","POST", {})
 })
 
 

@@ -32,6 +32,10 @@
             cursor: pointer;
         }
 
+        .image-size{
+            width:50px;
+            height:50px;
+        }
       
 
     }
@@ -55,25 +59,22 @@
  
     }
  
-    // .user-list-container {
-    //     display: flex;
-    //     justify-content: space-between;
  
-    //     .material-symbols-outlined {
-    //         color: red;
-    //     }
+    // .th-guid .th-div {
+ 
+    //     text-align: right;
+    //     justify-content: flex-end;
+ 
     // }
  
-    .th-guid .th-div {
- 
-        text-align: right;
-        justify-content: flex-end;
- 
-    }
- 
-    .td-guid {
-        text-align: right;
-    }
+    // .td-guid {
+    //     text-align: right;
+    // }
+
+    // td .td-image{
+    //     width:50px;
+    //     height:50px;
+    // }
 
 }
  
