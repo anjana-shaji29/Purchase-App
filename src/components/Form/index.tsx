@@ -35,7 +35,7 @@ const initialState: State = {
 }
  
  
-const Form = () => {
+const Form = ({onHide = ()=> {}}) => {
  
     const {userDetails, jwt } = useAppSelector(state => state.auth);
     console.log(userDetails);
@@ -60,13 +60,21 @@ const Form = () => {
             if(userDetails && userDetails.type === 1){
                
                 reduxDispatch(signup({ name: `${firstname} ${lastname}`, username, password, type}))
-                setShowToast(true);
-                setTimeout(() => {
-                    setShowToast(false);
-                    reduxDispatch(getUsers())
-                   
-                }, 2000);
-                 navigate('/users');
+                .then( data => {
+
+                    if (data.payload.data.status === 200) {
+                        onHide();
+                        reduxDispatch(getUsers())
+                        setShowToast(true);
+                        setTimeout(() => {
+                            setShowToast(false);
+                            
+                        }, 2000);
+                        
+                    }
+
+                })
+               
             } else{
 
             reduxDispatch(signup({ name: `${firstname} ${lastname}`, username, password }))
@@ -93,28 +101,6 @@ const Form = () => {
     };
  
    
-    //    useEffect(() => {
-    //     if (showToast) {
-    //         setTimeout(() => {
-    //             setShowToast(false);
-    //             if(userDetails && userDetails.type === 1){
-                        //  navigate('/users'); 
-    //                  reduxDispatch(getUsers())
-    //                
-    //             } else{
-    //                 setTimeout(() => {
-                               
-    //                             setShowToast(false);
-    //                             navigate('/');
-    //                         }, 2000);
-    //             }
-    //             // navigate('/');
-               
-    //         }, 2000); 
-    //     }
-    // }, [showToast, navigate, userDetails]);
-
- 
  
  
     return (

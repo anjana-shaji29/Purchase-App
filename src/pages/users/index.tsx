@@ -94,11 +94,9 @@ const PageUsers = () => {
  
             <Table columns={columns} data={userList} />
            
-            <div
-                className="modal show box"
-                style={{ display: show ? 'block': 'none', position: 'fixed', top:40, }}
+            <Modal show={show} onHide={handleClose}
             >
-                <Modal.Dialog>
+                
                     <Modal.Header closeButton onClick={handleClose}>
                         <Modal.Title> Buy It Now </Modal.Title>
                     </Modal.Header>
@@ -111,28 +109,13 @@ const PageUsers = () => {
                         <Button variant="primary" onClick={handleDelete}> Yes </Button>
                         <Button variant="secondary" onClick={handleClose}> No </Button>
                     </Modal.Footer>
-                </Modal.Dialog>
-            </div>
+                
+            </Modal>
 
 
-         {showFormModal && (
-           <>
-            <div className='overlay' onClick={toggleFormModal}
-              style={{position: 'fixed', top:0, left:0,
-             width:"100%", height: "100%", background:"rgba(0, 0, 0, 0.6)",
-             zIndex:1000
-            
-            }}> </div>
-            <div
-                style={{ display: showFormModal ? 'block': 'none', position: 'fixed', top:"50%",
-                left:"50%", transform: 'translate(-50%, -50%)', zIndex:1001,
-            }} >
-           
-                <Modal.Dialog>
-                <Form />
-                </Modal.Dialog>
-            </div> 
-              </> ) }
+            <Modal className='form-add-edit-user-modal' show={showFormModal} onHide={toggleFormModal}>
+                <Form onHide={toggleFormModal}/>
+                </Modal>
            
         </div> 
  

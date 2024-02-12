@@ -55,15 +55,6 @@
  
     }
  
-    // .user-list-container {
-    //     display: flex;
-    //     justify-content: space-between;
- 
-    //     .material-symbols-outlined {
-    //         color: red;
-    //     }
-    // }
- 
     .th-guid .th-div {
  
         text-align: right;
@@ -75,9 +66,15 @@
         text-align: right;
     }
 
+
 }
  
- 
+.form-add-edit-user-modal{
+    .modal-content{
+        background: white;
+        border-radius: 30px;
+    }
+}
  
 @media screen and (max-width: 1024px) {
     .user-box {

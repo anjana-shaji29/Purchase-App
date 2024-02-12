@@ -6,7 +6,7 @@ import Table from '../../components/table/index.tsx';
 import { ProductItem } from '../../redux/productSlice.ts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Form from '../../components/Form/index.tsx';
+
 import { Link } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
 import ProductForm from '../../components/ProductForm/index.tsx';
@@ -34,7 +34,10 @@ const PageProducts = () => {
     {
         label: "Actions", render: (row: ProductItem) => {
             return <div>
-                {userDetails && userDetails.type === 1 ? <span className="material-symbols-outlined"> edit </span>
+                {userDetails && userDetails.type === 1 ? <span className="material-symbols-outlined" onClick={() => {
+                    setSelectedProductId(row.guid);
+                    setShowFormModal(true);
+                }}> edit </span>
                     : <span className="material-symbols-outlined"> local_mall  </span>}
 
                 {userDetails && userDetails.type === 1 && <span onClick={() => {
@@ -112,11 +115,8 @@ const PageProducts = () => {
 
                 <Table columns={columns} data={productList} />
 
-                <div
-                    className="modal show box"
-                    style={{ display: show ? 'block' : 'none', position: 'fixed', top: 40, }}
-                >
-                    <Modal.Dialog>
+               
+                    <Modal show={show} onHide={handleClose}>
                         <Modal.Header closeButton onClick={handleClose}>
                             <Modal.Title> Buy It Now </Modal.Title>
                         </Modal.Header>
@@ -129,36 +129,16 @@ const PageProducts = () => {
                             <Button variant="primary" onClick={handleDelete}> Yes </Button>
                             <Button variant="secondary" onClick={handleClose}> No </Button>
                         </Modal.Footer>
-                    </Modal.Dialog>
-                </div>
+                    </Modal >
+             
 
+              
 
-                {showFormModal && (
-                    <>
-                        <div className='overlay' onClick={toggleFormModal}
-                            style={{
-                                position: 'fixed', top: 0, left: 0,
-                                width: "100%", height: "100%", background: "rgba(0, 0, 0, 0.6)",
-                                zIndex: 1000
-
-                            }}> </div>
-                        <div
-                            style={{
-                                display: showFormModal ? 'block' : 'none', position: 'fixed', top: "50%",
-                                left: "50%", transform: 'translate(-50%, -50%)', zIndex: 1001,
-                            }} >
-
-                            <Modal.Dialog>
-                               
-                                <>
-                                   <ProductForm />
-                                   
-                                </>
-                            </Modal.Dialog>
+                            <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
+                                   <ProductForm onHide={toggleFormModal} />
+                            </Modal >
                         </div>
-                    </>)}
-
-            </div>
+           
         </div>
     );
 };
