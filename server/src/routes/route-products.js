@@ -49,11 +49,12 @@ RouteProducts.post("/add", (req, res) => {
     validateTokenThen(req, res, ({ type = null }) => {
         if (type === USER_TYPES.ADMIN) {
             const { name, details, image, imageName, count, rating, status } =
-                JSON.parse(req?.body);
+               (req?.body);
             const filename = path.join(
                 `${appRoot}/assets/uploads/products`,
                 imageName
             );
+            console.log(filename);
             fs.writeFileSync(
                 filename,
                 new Buffer.from(

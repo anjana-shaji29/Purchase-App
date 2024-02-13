@@ -43,7 +43,7 @@ const Form = ({onHide = ()=> {}}) => {
     const reduxDispatch = useAppDispatch();
     const [state, dispatch] = useReducer(reducer, initialState);
     const { username, password, firstname, lastname, confirmPassword, type } = state;
-    const [showToast, setShowToast] = useState<boolean>(false);
+    const [showToast, setShowToast] = useState<boolean>(false); 
     const [error, setError] = useState<string>('');
     // console.log(type);
 

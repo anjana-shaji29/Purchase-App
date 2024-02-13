@@ -2,15 +2,16 @@ import React, { useEffect, useReducer, useState } from 'react';
 import "./index.scss";
 import { Link } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
-import { useAppDispatch } from '../../redux/hooks.ts';
-import { addProduct } from '../../redux/productSlice.ts';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
+import { addProduct, getProducts } from '../../redux/productSlice.ts';
 
 interface State{
     name: string;
-    image: string;
+    // image: string;
     details: string;
     count: number;
-    base64: string;
+    image: string;
+    imageName: string;
  }
 
 type reducerAction = Object;
@@ -24,30 +25,45 @@ const reducer = (state: State, action: reducerAction) => {
  
 const initialState: State = {
     name: '',
-    image: '',
+    // image: '',
     details: '',
     count: 0,
-    base64:''
+    image:'',
+    imageName:''
    
 }
  
 
-
-const ProductForm = ({onHide}) => {
+const ProductForm = ({onHide = ()=> {}}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { name, image, details, count, base64 } = state;
+    const { name, details, image, imageName, count  } = state;
     const [showToast, setShowToast] = useState<boolean>(false);
     const reduxDispatch = useAppDispatch();
+    const [productList] = useAppSelector(state => state.products.productList);
+    console.log(productList);
+    
     
 
-    const handleSubmit = (e)=> {
+    const handleProductSubmit = (e)=> {
 
         e.preventDefault();
-        
-        // reduxDispatch(addProduct({name, image, details, count }))
-        
+        reduxDispatch(addProduct({name, image, imageName, details, count}))
+        .then( data => {
 
+            if (data.payload.data.status === 200) {
+                onHide();
+                reduxDispatch(getProducts())
+                setShowToast(true);
+                setTimeout(() => {
+                    setShowToast(false);
+                    
+                }, 2000);
+                
+            }
+
+        })
+            
     }
 
     function readFile(file) {
@@ -55,7 +71,7 @@ const ProductForm = ({onHide}) => {
         const FR = new FileReader();
           
         FR.addEventListener("load", function(evt) {
-          dispatch({base64: evt.target.result});
+          dispatch({image: evt.target.result});
           
         }); 
           
@@ -68,17 +84,21 @@ const ProductForm = ({onHide}) => {
         const file = e.target.files[0];
         console.log(file);
         const filename = file.name;
+        dispatch({ imageName: filename});
+        // console.log(filename);
         readFile(file);
        
     } 
 
-console.log(base64);
+  
+
+console.log(image);
 
     return (
 
         <>
 
-        <form className='signup-box' onSubmit={handleSubmit}>
+        <form className='signup-box' onSubmit={handleProductSubmit}>
             <h3> Add Product </h3>
             <label className='form-group'>
                 <div className='form-label'>  Name </div>
@@ -86,7 +106,7 @@ console.log(base64);
             </label>
             <label className='form-group'>
                 <div className='form-label'>  Image </div>
-                <input className='form-control password' type="file" value={image} onChange={handleImage} placeholder="" />
+                <input className='form-control password' type="file" onChange={handleImage} placeholder="" />
             </label>
             <label className='form-group'>
                 <div className='form-label'>  Details </div>

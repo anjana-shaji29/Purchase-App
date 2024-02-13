@@ -22,6 +22,7 @@ const PageProducts = () => {
     const [showToast, setShowToast] = useState<boolean>(false);
     const [search, setSearch] = useState(String);
     const [error, setError] = useState<string>("");
+    // console.log(selectedProductId);
    
 
     const columns = [{
@@ -37,12 +38,15 @@ const PageProducts = () => {
                 {userDetails && userDetails.type === 1 ? <span className="material-symbols-outlined" onClick={() => {
                     setSelectedProductId(row.guid);
                     setShowFormModal(true);
+                  
+                    
                 }}> edit </span>
                     : <span className="material-symbols-outlined"> local_mall  </span>}
 
                 {userDetails && userDetails.type === 1 && <span onClick={() => {
                     setSelectedProductId(row.guid);
                     setShow(true);
+                
                 }}
 
                     style={{ color: "red" }} className="material-symbols-outlined">
@@ -114,6 +118,7 @@ const PageProducts = () => {
                 </div>
 
                 <Table columns={columns} data={productList} />
+                
 
                
                     <Modal show={show} onHide={handleClose}>
@@ -132,10 +137,8 @@ const PageProducts = () => {
                     </Modal >
              
 
-              
-
                             <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
-                                   <ProductForm onHide={toggleFormModal} />
+                                   <ProductForm onHide={toggleFormModal}  guid={selectedProductId} />
                             </Modal >
                         </div>
            
