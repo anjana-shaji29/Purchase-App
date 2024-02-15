@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchHandler } from "./handleFetch.ts";
-import { useFetcher } from "react-router-dom";
+
 
 export interface ProductItem {
    guid: string;
@@ -9,6 +9,7 @@ export interface ProductItem {
    image: string;
    count: number;
    rating: number;
+   imageName: string;
 }
 
 interface InitialState {
@@ -47,7 +48,7 @@ export const productSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(getProducts.fulfilled, (state, action) => {
-            console.log(action);
+            // console.log(action);
             state.productList = action?.payload?.data?.data;
 
          })

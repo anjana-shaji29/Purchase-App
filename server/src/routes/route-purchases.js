@@ -101,7 +101,7 @@ RoutePurchases.get("/list", (req, res) => {
 RoutePurchases.post("/add", (req, res) => {
     validateTokenThen(req, res, ({ userId = null }) => {
         if (userId) {
-            const { productId, count, status } = req.body;
+            const { productId, count, status=1 } = req.body;
             const guid = generateGuid();
             PurchaseModel.create({
                 guid,

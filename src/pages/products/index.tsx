@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
-import { getProducts, addProduct, deleteProduct } from '../../redux/productSlice.ts';
+import { getProducts, deleteProduct } from '../../redux/productSlice.ts';
 import "./index.scss";
 import Table from '../../components/table/index.tsx';
 import { ProductItem } from '../../redux/productSlice.ts';
@@ -10,20 +10,21 @@ import Modal from 'react-bootstrap/Modal';
 import { Link } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
 import ProductForm from '../../components/ProductForm/index.tsx';
+import PurchaseForm from '../../components/PurchaseForm/index.tsx';
 
 const PageProducts = () => {
 
     const { userDetails } = useAppSelector(state => state.auth);
     const imgUrl = "http://localhost:8085/";
 
-    const [show, setShow] = useState<boolean>(false);
-    const [showFormModal, setShowFormModal] = useState<boolean>(false);
+    const [show, setShow] = useState<boolean>(false); // Delete Modal
+    const [showFormModal, setShowFormModal] = useState<boolean>(false); // Form Modal
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
     const [showToast, setShowToast] = useState<boolean>(false);
     const [search, setSearch] = useState(String);
     const [error, setError] = useState<string>("");
     // console.log(selectedProductId);
-   
+
 
     const columns = [{
         label: "Image", accessor: "image", sortable: false, basecolumn: false,
@@ -35,23 +36,32 @@ const PageProducts = () => {
     {
         label: "Actions", render: (row: ProductItem) => {
             return <div>
-                {userDetails && userDetails.type === 1 ? <span className="material-symbols-outlined" onClick={() => {
+                {userDetails && userDetails.type === 1 ?
+                 <span className="material-symbols-outlined" onClick={() => {
                     setSelectedProductId(row.guid);
                     setShowFormModal(true);
-                  
-                    
-                }}> edit </span>
-                    : <span className="material-symbols-outlined"> local_mall  </span>}
+                   
+                        }}> edit 
+                </span>
 
-                {userDetails && userDetails.type === 1 && <span onClick={() => {
+             : <span className="material-symbols-outlined" onClick={() => {
                     setSelectedProductId(row.guid);
-                    setShow(true);
-                
-                }}
+                    setShowFormModal(true);
+               
+                    }} > local_mall 
+                </span>}
 
+                {userDetails && userDetails.type === 1 && 
+                <span onClick={ () => {
+                   setSelectedProductId(row.guid);
+                   setShow(true);
+
+                }
+                }
                     style={{ color: "red" }} className="material-symbols-outlined">
                     delete
-                </span >}  </div>;
+                </span >} 
+            </div>;
         }, accessor: "guid"
     },]
 
@@ -60,7 +70,7 @@ const PageProducts = () => {
     const reduxDispatch = useAppDispatch();
 
 
-   
+
     useEffect(() => {
         reduxDispatch(getProducts())
 
@@ -96,11 +106,13 @@ const PageProducts = () => {
 
     const toggleFormModal = () => {
         setShowFormModal(!showFormModal);
+        setSelectedProductId("");
     }
 
+   
 
     return (
-        <div>
+       
             <div className='product-box'>
                 <div className='product-header-wrap'>
                     <div className='product-search-container'>
@@ -118,31 +130,36 @@ const PageProducts = () => {
                 </div>
 
                 <Table columns={columns} data={productList} />
-                
 
-               
-                    <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton onClick={handleClose}>
-                            <Modal.Title> Buy It Now </Modal.Title>
-                        </Modal.Header>
 
-                        <Modal.Body>
-                            <p> Do you want to delete? </p>
-                        </Modal.Body>
 
-                        <Modal.Footer>
-                            <Button variant="primary" onClick={handleDelete}> Yes </Button>
-                            <Button variant="secondary" onClick={handleClose}> No </Button>
-                        </Modal.Footer>
-                    </Modal >
-             
+                <Modal show={show} onHide={handleClose}>
+                    <Modal.Header closeButton onClick={handleClose}>
+                        <Modal.Title> Buy It Now </Modal.Title>
+                    </Modal.Header>
 
-                            <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
-                                   <ProductForm onHide={toggleFormModal}  guid={selectedProductId} />
-                            </Modal >
-                        </div>
-           
-        </div>
+                    <Modal.Body>
+                        <p> Do you want to delete? </p>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={handleDelete}> Yes </Button>
+                        <Button variant="secondary" onClick={handleClose}> No </Button>
+                    </Modal.Footer>
+                </Modal >
+
+
+                <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
+                    <ProductForm onHide={toggleFormModal} guid={selectedProductId} />
+                </Modal >
+
+                {userDetails && userDetails.type !== 1 &&
+                <Modal className='form-add-edit-purchase-modal' show={showFormModal} onHide={toggleFormModal}>
+                    <PurchaseForm onHide={toggleFormModal} productId={selectedProductId} />
+                </Modal > }
+            </div>
+
+      
     );
 };
 
