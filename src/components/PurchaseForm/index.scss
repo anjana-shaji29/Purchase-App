@@ -1,5 +1,5 @@
 
-.purchase-box {
+.signup-box {
     background-color: var(--color-white);
     border-radius: 30px;
     padding: 30px;
@@ -16,7 +16,7 @@
         border-bottom: 1px solid red;
     }
 }
-    .purchase-footer {
+    .signup-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -29,18 +29,13 @@
     z-index: 40;
     color:red;
 }
-.toast-container{
-    width:200px;
-    position: fixed;
-    top:0;
-    z-index: 30;
-}
+
 // }
 
 
 @media screen and (max-width:1024px) {
 
-    .purchase-box{
+    .signup-box{
         max-height: calc(100vh - 150px);
         overflow: auto;
         width:300px;
@@ -52,7 +47,7 @@
 
 @media screen and (max-width:768px) {
 
-    .purchase-box {
+    .signup-box {
         // border-radius: 30px 30px 0 0;
         width: 100%;
         flex: 1;

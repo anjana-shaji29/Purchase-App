@@ -6,88 +6,88 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 import { addProduct, editProduct, getProducts } from '../../redux/productSlice.ts';
 
 
-interface State{
+interface State {
     name: string;
     // image: string;
     details: string;
     count: number;
     image: string;
     imageName: string;
- }
+}
 
 type reducerAction = Object;
- 
+
 const reducer = (state: State, action: reducerAction) => {
     return {
         ...state,
         ...action
     }
 };
- 
+
 const initialState: State = {
     name: '',
     // image: '',
     details: '',
     count: 0,
-    image:'',
-    imageName:''
-   
-}
- 
+    image: '',
+    imageName: ''
 
-const ProductForm = ({onHide = ()=> {}, guid}) => {
+}
+
+
+const ProductForm = ({ onHide = () => { }, guid, toast }) => {
 
     // console.log(guid);
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { name, details, image, imageName, count  } = state;
-    const [showToast, setShowToast] = useState<boolean>(false);
+    const { name, details, image, imageName, count } = state;
+    
     const reduxDispatch = useAppDispatch();
     const productList = useAppSelector((state) => state.products.productList);
     // console.log(productList);
     const imgUrl = "http://localhost:8085/";
 
 
-    const handleProductSubmit = (e)=> {
+    const handleProductSubmit = (e) => {
 
         e.preventDefault();
 
-        if(guid){
-           
-            reduxDispatch(editProduct({ guid, name, details, count}))
-            .then( data => {
+        if (guid) {
 
-                if (data.payload.data.status === 200) {
-                    onHide();
-                    reduxDispatch(getProducts())
-                    setShowToast(true);
-                    setTimeout(() => {
-                        setShowToast(false);
-                        
-                    }, 2000);
-                    
-                }
+            reduxDispatch(editProduct({ guid, name, details, count }))
+                .then(data => {
 
-            })
-        } else{
-            reduxDispatch(addProduct({name, image, imageName, details, count}))
-        .then( data => {
-            
-            if (data.payload.data.status === 200) {
-             
-                // onHide();
-                reduxDispatch(getProducts())
-                setShowToast(true);
-                // setTimeout(() => {
-                //     setShowToast(false);
-                    
-                // }, 2000);
-                
-            }
+                    if (data.payload.data.status === 200) {
+                        onHide();
+                        reduxDispatch(getProducts())
+                        // setShowToast(true);
+                        // setTimeout(() => {
+                        //     setShowToast(false);
 
-        })
+                        // }, 2000);
+
+                    }
+
+                })
+        } else {
+            reduxDispatch(addProduct({ name, image, imageName, details, count }))
+                .then(data => {
+
+                    if (data.payload.data.status === 200) {
+
+                        onHide();
+                        reduxDispatch(getProducts())
+                        toast();
+                        setTimeout(() => {
+                            toast(false);
+
+                        }, 2000);
+
+                    }
+
+                })
         }
-     
+
     }
 
     useEffect(() => {
@@ -107,70 +107,65 @@ const ProductForm = ({onHide = ()=> {}, guid}) => {
 
 
     function readFile(file) {
-  
+
         const FR = new FileReader();
-          
-        FR.addEventListener("load", function(evt) {
-          dispatch({image: evt?.target?.result});
-          
-        }); 
-          
+
+        FR.addEventListener("load", function (evt) {
+            dispatch({ image: evt?.target?.result });
+
+        });
+
         FR.readAsDataURL(file);
-        
-      }
+
+    }
 
 
     const handleImage = (e) => {
         const file = e.target.files[0];
         // console.log(file);
         const filename = file.name;
-        dispatch({ imageName: filename});
+        dispatch({ imageName: filename });
         // console.log(filename);
         readFile(file);
-       
-    } 
 
-  
+    }
 
-// console.log(image);
+
+
+    // console.log(image);
 
     return (
 
         <>
-        <form className='signup-box' onSubmit={handleProductSubmit}>
-            { guid ? <h3> Edit Product </h3> :  <h3> Add Product </h3>}
-            <label className='form-group'>
-                <div className='form-label'>  Name </div>
-                <input className='form-control' type="text" value={name} onChange={e => dispatch({ name: e?.target?.value })} placeholder="Name" required />
-            </label>
-            <label className='form-group'>
-                <div className='form-label'>  Image </div>
-             { guid ? <img src={image}  alt={image}  style={{ maxWidth: "100px" }}/> :
-                <input className='form-control password' type="file" onChange={handleImage} placeholder="" />  }
-            </label>
-            <label className='form-group'>
-                <div className='form-label'>  Details </div>
-                <input className='form-control' type="text" value={details} onChange={e => dispatch({ details: e?.target?.value })} placeholder="Details" required />
+            <form className='signup-box' onSubmit={handleProductSubmit}>
+                {guid ? <h3> Edit Product </h3> : <h3> Add Product </h3>}
+                <label className='form-group'>
+                    <div className='form-label'>  Name </div>
+                    <input className='form-control' type="text" value={name} onChange={e => dispatch({ name: e?.target?.value })} placeholder="Name" required />
+                </label>
+                <label className='form-group'>
+                    <div className='form-label'>  Image </div>
+                    {guid ? <img src={image} alt={image} style={{ maxWidth: "100px" }} /> :
+                        <input className='form-control password' type="file" onChange={handleImage} placeholder="" />}
+                </label>
+                <label className='form-group'>
+                    <div className='form-label'>  Details </div>
+                    <input className='form-control' type="text" value={details} onChange={e => dispatch({ details: e?.target?.value })} placeholder="Details" required />
 
-            </label>
-            <label className='form-group'>
-                <div className='form-label'> Count </div>
-                <input className='form-control password' type="number" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
-            </label>
+                </label>
+                <label className='form-group'>
+                    <div className='form-label'> Count </div>
+                    <input className='form-control password' type="number" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
+                </label>
 
-            <div className='signup-footer'>
-               
-             {guid ? <button className='btn-primary' type="submit"> Edit Product </button> : 
-             <button className='btn-primary' type="submit"> Add Product </button> }       
-            </div>
-        </form>
+                <div className='signup-footer'>
 
-         <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
-                                        <Toast.Header>
-                                            <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                                        </Toast.Header>
-                                        <Toast.Body> Product Created </Toast.Body>
-                                    </Toast>
+                    {guid ? <button className='btn-primary' type="submit"> Edit Product </button> :
+                        <button className='btn-primary' type="submit"> Add Product </button>}
+                </div>
+            </form>
+
+
 
         </>
     )

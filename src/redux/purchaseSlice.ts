@@ -1,14 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { fetchHandler } from "./handleFetch.ts";
+import { ProductItem } from "./productSlice.ts";
 
 
 export interface PurchaseItem {
    guid: string;
-   productId: string;
-   details: string;
-   userId: string;
    count: number;
-   
+   status?: number;
+   productDetails: ProductItem
+  
 }
 
 interface InitialState {

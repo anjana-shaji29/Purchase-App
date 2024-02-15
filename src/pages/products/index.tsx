@@ -16,11 +16,10 @@ const PageProducts = () => {
 
     const { userDetails } = useAppSelector(state => state.auth);
     const imgUrl = "http://localhost:8085/";
-
     const [show, setShow] = useState<boolean>(false); // Delete Modal
     const [showFormModal, setShowFormModal] = useState<boolean>(false); // Form Modal
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
-    const [showToast, setShowToast] = useState<boolean>(false);
+    const [showToast, setShowToast] = useState<boolean>(false); // Toast
     const [search, setSearch] = useState(String);
     const [error, setError] = useState<string>("");
     // console.log(selectedProductId);
@@ -37,30 +36,30 @@ const PageProducts = () => {
         label: "Actions", render: (row: ProductItem) => {
             return <div>
                 {userDetails && userDetails.type === 1 ?
-                 <span className="material-symbols-outlined" onClick={() => {
-                    setSelectedProductId(row.guid);
-                    setShowFormModal(true);
-                   
-                        }}> edit 
-                </span>
+                    <span className="material-symbols-outlined" onClick={() => {
+                        setSelectedProductId(row.guid);
+                        setShowFormModal(true);
 
-             : <span className="material-symbols-outlined" onClick={() => {
-                    setSelectedProductId(row.guid);
-                    setShowFormModal(true);
-               
-                    }} > local_mall 
-                </span>}
+                    }}> edit
+                    </span>
 
-                {userDetails && userDetails.type === 1 && 
-                <span onClick={ () => {
-                   setSelectedProductId(row.guid);
-                   setShow(true);
+                    : <span className="material-symbols-outlined" onClick={() => {
+                        setSelectedProductId(row.guid);
+                        setShowFormModal(true);
 
-                }
-                }
-                    style={{ color: "red" }} className="material-symbols-outlined">
-                    delete
-                </span >} 
+                    }} > local_mall
+                    </span>}
+
+                {userDetails && userDetails.type === 1 &&
+                    <span onClick={() => {
+                        setSelectedProductId(row.guid);
+                        setShow(true);
+
+                    }
+                    }
+                        style={{ color: "red" }} className="material-symbols-outlined">
+                        delete
+                    </span >}
             </div>;
         }, accessor: "guid"
     },]
@@ -109,57 +108,66 @@ const PageProducts = () => {
         setSelectedProductId("");
     }
 
-   
+    const toggleToast = () => {
+        setShowToast(!showToast);
+        setSelectedProductId("");
+    }
+
+
 
     return (
-       
-            <div className='product-box'>
-                <div className='product-header-wrap'>
-                    <div className='product-search-container'>
-                        <input type="text" placeholder='Search Product' value={search} onChange={e => setSearch(e?.target?.value)} />
 
-                    </div>
-                    {userDetails && userDetails.type === 1 &&
-                        <div className='add-product-container' onClick={toggleFormModal}>
-                            <span className="material-symbols-outlined">
-                                category
-                            </span>
-                            <span className='add-product'>  Add Product </span>
-                        </div>}
+        <div className='product-box'>
+            <div className='product-header-wrap'>
+                <div className='product-search-container'>
+                    <input type="text" placeholder='Search Product' value={search} onChange={e => setSearch(e?.target?.value)} />
 
                 </div>
+                {userDetails && userDetails.type === 1 &&
+                    <div className='add-product-container' onClick={toggleFormModal}>
+                        <span className="material-symbols-outlined">
+                            category
+                        </span>
+                        <span className='add-product'>  Add Product </span>
+                    </div>}
 
-                <Table columns={columns} data={productList} />
-
-
-
-                <Modal show={show} onHide={handleClose}>
-                    <Modal.Header closeButton onClick={handleClose}>
-                        <Modal.Title> Buy It Now </Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        <p> Do you want to delete? </p>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <Button variant="primary" onClick={handleDelete}> Yes </Button>
-                        <Button variant="secondary" onClick={handleClose}> No </Button>
-                    </Modal.Footer>
-                </Modal >
-
-
-                <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
-                    <ProductForm onHide={toggleFormModal} guid={selectedProductId} />
-                </Modal >
-
-                {userDetails && userDetails.type !== 1 &&
-                <Modal className='form-add-edit-purchase-modal' show={showFormModal} onHide={toggleFormModal}>
-                    <PurchaseForm onHide={toggleFormModal} productId={selectedProductId} />
-                </Modal > }
             </div>
 
-      
+            <Table columns={columns} data={productList} />
+
+
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton onClick={handleClose}>
+                    <Modal.Title> Buy It Now </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body>
+                    <p> Do you want to delete? </p>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleDelete}> Yes </Button>
+                    <Button variant="secondary" onClick={handleClose}> No </Button>
+                </Modal.Footer>
+            </Modal >
+
+
+            <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
+                <ProductForm onHide={toggleFormModal} guid={selectedProductId} toast={setShowToast} />
+            </Modal >
+
+            {userDetails && userDetails.type !== 1 &&
+                <Modal className='form-add-edit-purchase-modal' show={showFormModal} onHide={toggleFormModal}>
+                    <PurchaseForm onHide={toggleFormModal} productId={selectedProductId} />
+                </Modal >}
+
+            <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
+                <Toast.Body> Product Created </Toast.Body>
+            </Toast>
+
+        </div>
+
     );
 };
 

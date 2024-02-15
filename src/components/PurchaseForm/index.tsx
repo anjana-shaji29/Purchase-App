@@ -60,11 +60,11 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
                 if (data.payload.data.status === 200) {
                     onHide();
                     // reduxDispatch(getPurchases())
-                    setShowToast(true);
-                    setTimeout(() => {
-                        setShowToast(false);
+                    // setShowToast(true);
+                    // setTimeout(() => {
+                    //     setShowToast(false);
                         
-                    }, 2000);
+                    // }, 2000);
                     
                 }
 
@@ -88,51 +88,26 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
     }, [productId, productList]);
 
 
-    function readFile(file) {
-  
-        const FR = new FileReader();
-          
-        FR.addEventListener("load", function(evt) {
-          dispatch({image: evt?.target?.result});
-          
-        }); 
-          
-        FR.readAsDataURL(file);
-        
-      }
-
-
-    const handleImage = (e) => {
-        const file = e.target.files[0];
-        // console.log(file);
-        const filename = file.name;
-        dispatch({ imageName: filename});
-        // console.log(filename);
-        readFile(file);
-       
-    } 
-
-  
 
 // console.log(image);
 
     return (
 
         <>
-        <form className='purchase-box' onSubmit={handlePurchase}>
+        <form className='signup-box' onSubmit={handlePurchase}>
             <h3> Add Purchase </h3> 
             <label className='form-group'>
                 <div className='form-label'>  Name </div>
-                <input className='form-control' type="text" value={name} onChange={e => dispatch({ name: e?.target?.value })} placeholder="Name" required />
+                <input className='form-control' type="text" value={name} onChange={e => dispatch({ name: e?.target?.value })} placeholder="Name"  disabled/>
             </label>
             <label className='form-group'>
                 <div className='form-label'>  Image </div>
              { productId ? <img src={image}  alt={image}  style={{ maxWidth: "100px" }}/> :
-                <input className='form-control password' type="file" onChange={handleImage} placeholder="" />  }
+                <input className='form-control password' type="file"  placeholder="" />  }
             </label>
             <label className='form-group'>
                 <div className='form-label'>  Details </div>
-                <input className='form-control' type="text" value={details} onChange={e => dispatch({ details: e?.target?.value })} placeholder="Details" required />
+                <input className='form-control' type="text" value={details} onChange={e => dispatch({ details: e?.target?.value })} placeholder="Details" disabled />
 
             </label>
             <label className='form-group'>
@@ -140,10 +115,10 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
                 <input className='form-control password' type="number" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
             </label>
 
-            <div className='purchase-footer'>
+            <div className='signup-footer'>
                
               <button className='btn-primary' type="submit"> Add To Cart  </button>  
-             <button className='btn-primary' type="submit"> Cancel </button>       
+             <button className='btn btn-secondary' type="submit"> Cancel </button>       
             </div>
         </form>
 

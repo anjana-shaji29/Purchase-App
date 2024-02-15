@@ -9,7 +9,7 @@ export interface ProductItem {
    image: string;
    count: number;
    rating: number;
-   imageName: string;
+   imageName?: string;
 }
 
 interface InitialState {

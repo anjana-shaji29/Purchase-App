@@ -13,8 +13,12 @@ const Header = () => {
     console.log(userDetails);
 
 const handleLogOut = ()=> {
-    dispatch(logOut());
-    navigate('/');
+    dispatch(logOut())
+    setTimeout( () => {
+        navigate('/');
+    }, 100)
+
+   
 }
 
  

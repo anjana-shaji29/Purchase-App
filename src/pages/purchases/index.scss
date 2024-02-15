@@ -1,6 +1,6 @@
 
 
-.product-box {
+.purchase-box {
     width: 1100px;
     margin: auto;
     height: 100vh;
@@ -9,55 +9,55 @@
     overflow: auto;
     z-index: 40;
  
-    .product-header-wrap {
-        display: flex;
-        justify-content: space-between;
-        padding: 30px;
-        // background: red;
+    // .product-header-wrap {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     padding: 30px;
+    //     // background: red;
  
-        .product-search-container {
+    //     .product-search-container {
  
-            input[type=text] {
-                border: none;
-                border-bottom: 1px solid grey;
-                outline: none;
-            }
-        }
+    //         input[type=text] {
+    //             border: none;
+    //             border-bottom: 1px solid grey;
+    //             outline: none;
+    //         }
+    //     }
  
-        .add-product-container {
-            display: flex;
-            gap: 8px;
-            color: #004FFA;
-            align-items: center;
-            cursor: pointer;
-        }
+    //     .add-product-container {
+    //         display: flex;
+    //         gap: 8px;
+    //         color: #004FFA;
+    //         align-items: center;
+    //         cursor: pointer;
+    //     }
 
-        .image-size{
-            width:50px;
-            height:50px;
-        }
+    //     .image-size{
+    //         width:50px;
+    //         height:50px;
+    //     }
       
 
-    }
+    // }
  
-    .name-action-container {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
+    // .name-action-container {
+    //     display: flex;
+    //     justify-content: space-between;
+    //     padding: 10px;
  
  
-        .name-container {
-            display: flex;
-            gap: 3px;
-            align-items: center;
-            justify-content: center;
+    //     .name-container {
+    //         display: flex;
+    //         gap: 3px;
+    //         align-items: center;
+    //         justify-content: center;
  
-            .material-symbols-outlined {
-                color: #004FFA;
-            }
-        }
+    //         .material-symbols-outlined {
+    //             color: #004FFA;
+    //         }
+    //     }
  
-    }
+    // }
  
 }
 
@@ -71,14 +71,14 @@
 
 
 @media screen and (max-width: 1024px) {
-    .product-box {
+    .purchase-box {
         width: 700px;
     }
  
 }
  
 @media screen and (max-width: 768px) {
-    .product-box {
+    .purchase-box {
         width: 100%;
 
         .add-product {
