@@ -26,8 +26,6 @@ export const addPurchase = createAsyncThunk("addPurchase", async(body: object, s
    return fetchHandler(state,"http://localhost:8085/purchases/add","POST", body)
 })
 
-
-
 export const purchaseSlice = createSlice({
    name: 'purchases',
    initialState,
@@ -44,7 +42,7 @@ export const purchaseSlice = createSlice({
 
          })
 
-   },
+   }, 
 
 })
 

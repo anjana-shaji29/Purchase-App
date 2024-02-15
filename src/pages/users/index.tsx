@@ -7,12 +7,15 @@ import { User } from '../../redux/userSlice.ts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from '../../components/Form/index.tsx';
+import Toast from 'react-bootstrap/Toast';
  
 const PageUsers = () => {
     
     const [show, setShow] = useState<boolean>(false);
     const [showFormModal,  setShowFormModal] = useState <boolean>(false);
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+    const [showToast, setShowToast] = useState<boolean>(false); 
+    const [toastMessage, setToastMessage] = useState<string|null>(null); // Toast Message
  
     const [search, setSearch] = useState(String);
  
@@ -55,11 +58,17 @@ const PageUsers = () => {
  
     const handleDelete = () => {
         if (selectedUserId) {
-            console.log(selectedUserId);
+           
             reduxDispatch(deleteUser(selectedUserId))
             .then((data) => {
                 if (data.payload.data.status === 200) {
+                    setShowToast(true);
+                    setToastMessage("User deleted");
                     reduxDispatch(getUsers());
+                    setTimeout(() => {
+                        setShowToast(false);
+
+                    }, 2000);
                     handleClose();
                 } else {
                     console.error("Failed to delete user.");
@@ -113,9 +122,13 @@ const PageUsers = () => {
             </Modal>
 
 
-            <Modal className='form-add-edit-user-modal' show={showFormModal} onHide={toggleFormModal}>
-                <Form onHide={toggleFormModal}/>
-                </Modal>
+            <Modal className='form-add-edit-user-modal' show={showFormModal} onHide={toggleFormModal} >
+                <Form onHide={toggleFormModal} toast={setShowToast} toastMessage={setToastMessage}/>
+            </Modal>
+
+            <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
+                <Toast.Body> {toastMessage} </Toast.Body>
+            </Toast>
            
         </div> 
  

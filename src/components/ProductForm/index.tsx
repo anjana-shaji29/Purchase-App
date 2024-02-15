@@ -35,7 +35,7 @@ const initialState: State = {
 }
 
 
-const ProductForm = ({ onHide = () => { }, guid, toast }) => {
+const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
 
     // console.log(guid);
 
@@ -60,11 +60,13 @@ const ProductForm = ({ onHide = () => { }, guid, toast }) => {
                     if (data.payload.data.status === 200) {
                         onHide();
                         reduxDispatch(getProducts())
-                        // setShowToast(true);
-                        // setTimeout(() => {
-                        //     setShowToast(false);
+                        toastMessage("Product Edited");
+                        toast();
+                      
+                        setTimeout(() => {
+                            toast(false);
 
-                        // }, 2000);
+                        }, 2000);
 
                     }
 
@@ -77,6 +79,7 @@ const ProductForm = ({ onHide = () => { }, guid, toast }) => {
 
                         onHide();
                         reduxDispatch(getProducts())
+                        toastMessage("Product Added");
                         toast();
                         setTimeout(() => {
                             toast(false);

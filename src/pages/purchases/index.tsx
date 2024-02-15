@@ -9,16 +9,10 @@ const PagePurchases = () => {
 
     const reduxDispatch = useAppDispatch();
    
-    const { userDetails } = useAppSelector(state => state.auth);
+    // const purchaseList = useAppSelector((state) => state.purchases.purchaseList);
    
    
-   
-   
-
-   
-   
-   
-   
+ 
     useEffect(() => {
         reduxDispatch(getPurchases())
 

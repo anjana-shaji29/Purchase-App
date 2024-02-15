@@ -95,25 +95,17 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
 
         <>
         <form className='signup-box' onSubmit={handlePurchase}>
-            <h3> Add Purchase </h3> 
-            <label className='form-group'>
-                <div className='form-label'>  Name </div>
-                <input className='form-control' type="text" value={name} onChange={e => dispatch({ name: e?.target?.value })} placeholder="Name"  disabled/>
-            </label>
-            <label className='form-group'>
-                <div className='form-label'>  Image </div>
-             { productId ? <img src={image}  alt={image}  style={{ maxWidth: "100px" }}/> :
-                <input className='form-control password' type="file"  placeholder="" />  }
-            </label>
-            <label className='form-group'>
-                <div className='form-label'>  Details </div>
-                <input className='form-control' type="text" value={details} onChange={e => dispatch({ details: e?.target?.value })} placeholder="Details" disabled />
+            <h3> {name} </h3> 
+            <p> {details} </p>
 
+            <label className='form-group'>
+            <img src={image}  alt={image}  style={{ maxWidth: "100px" }}/> 
             </label>
+
             <label className='form-group'>
                 <div className='form-label'> Count </div>
                 <input className='form-control password' type="number" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
-            </label>
+            </label> 
 
             <div className='signup-footer'>
                

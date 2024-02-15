@@ -6,8 +6,6 @@ import Table from '../../components/table/index.tsx';
 import { ProductItem } from '../../redux/productSlice.ts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-
-import { Link } from 'react-router-dom';
 import Toast from 'react-bootstrap/Toast';
 import ProductForm from '../../components/ProductForm/index.tsx';
 import PurchaseForm from '../../components/PurchaseForm/index.tsx';
@@ -22,6 +20,8 @@ const PageProducts = () => {
     const [showToast, setShowToast] = useState<boolean>(false); // Toast
     const [search, setSearch] = useState(String);
     const [error, setError] = useState<string>("");
+    const [showPurchaseFormModal, setShowPurchaseFormModal] = useState<boolean>(false);
+    const [toastMessage, setToastMessage] = useState<string|null>(null); // Toast Message
     // console.log(selectedProductId);
 
 
@@ -45,7 +45,7 @@ const PageProducts = () => {
 
                     : <span className="material-symbols-outlined" onClick={() => {
                         setSelectedProductId(row.guid);
-                        setShowFormModal(true);
+                        setShowPurchaseFormModal(true);
 
                     }} > local_mall
                     </span>}
@@ -67,8 +67,6 @@ const PageProducts = () => {
     const productListOriginal = useAppSelector((state) => state.products.productList);
     const [productList, setProductList] = useState(Array<ProductItem>);
     const reduxDispatch = useAppDispatch();
-
-
 
     useEffect(() => {
         reduxDispatch(getProducts())
@@ -93,7 +91,14 @@ const PageProducts = () => {
             reduxDispatch(deleteProduct(selectedProductId))
                 .then((data) => {
                     if (data.payload.data.status === 200) {
+                        setShowToast(true);
+                       setToastMessage("Product deleted");
+                       
                         reduxDispatch(getProducts());
+                        setTimeout(() => {
+                            setShowToast(false);
+
+                        }, 2000);
                         handleClose();
                     } else {
                         console.error("Failed to delete product.");
@@ -105,6 +110,11 @@ const PageProducts = () => {
 
     const toggleFormModal = () => {
         setShowFormModal(!showFormModal);
+        setSelectedProductId("");
+    }
+
+    const togglePurchaseFormModal = () => {
+        setShowPurchaseFormModal(!showPurchaseFormModal);
         setSelectedProductId("");
     }
 
@@ -135,8 +145,6 @@ const PageProducts = () => {
 
             <Table columns={columns} data={productList} />
 
-
-
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton onClick={handleClose}>
                     <Modal.Title> Buy It Now </Modal.Title>
@@ -154,16 +162,16 @@ const PageProducts = () => {
 
 
             <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
-                <ProductForm onHide={toggleFormModal} guid={selectedProductId} toast={setShowToast} />
+                <ProductForm onHide={toggleFormModal} guid={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
             </Modal >
 
             {userDetails && userDetails.type !== 1 &&
-                <Modal className='form-add-edit-purchase-modal' show={showFormModal} onHide={toggleFormModal}>
-                    <PurchaseForm onHide={toggleFormModal} productId={selectedProductId} />
+                <Modal className='form-add-edit-purchase-modal' show={showPurchaseFormModal} onHide={togglePurchaseFormModal}>
+                    <PurchaseForm onHide={togglePurchaseFormModal} productId={selectedProductId}  />
                 </Modal >}
 
             <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
-                <Toast.Body> Product Created </Toast.Body>
+                <Toast.Body> {toastMessage} </Toast.Body>
             </Toast>
 
         </div>

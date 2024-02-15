@@ -75,6 +75,17 @@
         border-radius: 30px;
         width: 360px;
     }
+
+  
+}
+.toast-container{
+    width:200px;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top:0;
+    left:500px;
+    z-index: 30;
 }
  
 @media screen and (max-width: 1024px) {

@@ -2,7 +2,6 @@ import React, { useEffect, useReducer, useState } from 'react';
 import "./index.scss";
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../../redux/authSlice.ts';
-import Toast from 'react-bootstrap/Toast';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 import { getUsers} from '../../redux/userSlice.ts';
 
@@ -35,7 +34,7 @@ const initialState: State = {
 }
  
  
-const Form = ({onHide = ()=> {}}) => {
+const Form = ({onHide = ()=> {}, toast, toastMessage}) => {
  
     const {userDetails, jwt } = useAppSelector(state => state.auth);
     console.log(userDetails);
@@ -43,7 +42,7 @@ const Form = ({onHide = ()=> {}}) => {
     const reduxDispatch = useAppDispatch();
     const [state, dispatch] = useReducer(reducer, initialState);
     const { username, password, firstname, lastname, confirmPassword, type } = state;
-    const [showToast, setShowToast] = useState<boolean>(false); 
+   
     const [error, setError] = useState<string>('');
     // console.log(type);
 
@@ -65,10 +64,12 @@ const Form = ({onHide = ()=> {}}) => {
                     if (data.payload.data.status === 200) {
                         onHide();
                         reduxDispatch(getUsers())
-                        setShowToast(true);
+                        toastMessage("User Added");
+                        toast();
+                      
                         setTimeout(() => {
-                            setShowToast(false);
-                            
+                            toast(false);
+
                         }, 2000);
                         
                     }
@@ -81,12 +82,12 @@ const Form = ({onHide = ()=> {}}) => {
                 .then(
                     data => {
                         if (data.payload.data.status === 200) {
-                            setShowToast(true);
-                            setTimeout(() => {
+                            // setShowToast(true);
+                            // setTimeout(() => {
                                
-                                setShowToast(false);
+                            //     setShowToast(false);
                                 navigate('/');
-                            }, 2000);
+                            // }, 2000);
                         } else {
                             setError(data.payload.data.message);
                           }
@@ -145,12 +146,7 @@ const Form = ({onHide = ()=> {}}) => {
                     <button className='btn-primary' type="submit"> Signup </button>
                 </div>
             </form>
-            <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
-                <Toast.Header>
-                    <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                </Toast.Header>
-                <Toast.Body> User Created </Toast.Body>
-            </Toast>
+           
             
         </>
  
