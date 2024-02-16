@@ -13,7 +13,7 @@ import PurchaseForm from '../../components/PurchaseForm/index.tsx';
 const PageProducts = () => {
 
     const { userDetails } = useAppSelector(state => state.auth);
-    const imgUrl = "http://localhost:8085/";
+    const imgUrl = "https://info-shop-now.vijee.in/";
     const [show, setShow] = useState<boolean>(false); // Delete Modal
     const [showFormModal, setShowFormModal] = useState<boolean>(false); // Form Modal
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);

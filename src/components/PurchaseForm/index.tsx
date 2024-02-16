@@ -37,15 +37,13 @@ const initialState: State = {
 
 const PurchaseForm = ({onHide = ()=> {}, productId}) => {
 
-    // console.log(guid);
-
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count  } = state;
     const [showToast, setShowToast] = useState<boolean>(false);
     const reduxDispatch = useAppDispatch();
     const productList = useAppSelector((state) => state.products.productList);
     // console.log(productList);
-    const imgUrl = "http://localhost:8085/";
+    const imgUrl = "https://info-shop-now.vijee.in/";
 
 
     const handlePurchase = (e)=> {
@@ -86,10 +84,6 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
             }
         }
     }, [productId, productList]);
-
-
-
-// console.log(image);
 
     return (
 
