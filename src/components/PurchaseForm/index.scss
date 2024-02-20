@@ -1,5 +1,5 @@
 
-.signup-box {
+.purchase-form-box {
     background-color: var(--color-white);
     border-radius: 30px;
     padding: 30px;
@@ -16,11 +16,12 @@
         border-bottom: 1px solid red;
     }
 }
-    .signup-footer {
+    .purchase-form-footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
+
 }
 .error-message{
     width:200px;
@@ -35,7 +36,7 @@
 
 @media screen and (max-width:1024px) {
 
-    .signup-box{
+    .purchase-form-box{
         max-height: calc(100vh - 150px);
         overflow: auto;
         width:300px;
@@ -47,7 +48,7 @@
 
 @media screen and (max-width:768px) {
 
-    .signup-box {
+    .purchase-form-box {
         // border-radius: 30px 30px 0 0;
         width: 100%;
         flex: 1;

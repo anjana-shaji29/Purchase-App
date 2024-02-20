@@ -34,10 +34,10 @@ const initialState: State = {
 }
  
  
-const Form = ({onHide = ()=> {}, toast, toastMessage}) => {
+const Form = ({onHide = ()=> {}, toast = value=> value, toastMessage = value=> value }) => {
  
     const {userDetails, jwt } = useAppSelector(state => state.auth);
-    console.log(userDetails);
+    // console.log(userDetails);
     const navigate = useNavigate();
     const reduxDispatch = useAppDispatch();
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -82,12 +82,16 @@ const Form = ({onHide = ()=> {}, toast, toastMessage}) => {
                 .then(
                     data => {
                         if (data.payload.data.status === 200) {
-                            // setShowToast(true);
-                            // setTimeout(() => {
-                               
-                            //     setShowToast(false);
-                                navigate('/');
-                            // }, 2000);
+                            console.log("Hi");
+                            toastMessage("User Added");
+                            toast();
+                          
+                            setTimeout(() => {
+                                toast(false);
+                            }, 2000);
+                              
+                            navigate('/');
+
                         } else {
                             setError(data.payload.data.message);
                           }
@@ -101,7 +105,6 @@ const Form = ({onHide = ()=> {}, toast, toastMessage}) => {
 
     };
  
-   
     return (
 
             <>
@@ -145,7 +148,6 @@ const Form = ({onHide = ()=> {}, toast, toastMessage}) => {
                 </div>
             </form>
            
-            
         </>
  
     );

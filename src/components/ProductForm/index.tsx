@@ -37,14 +37,11 @@ const initialState: State = {
 
 const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
 
-    // console.log(guid);
-
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count } = state;
     
     const reduxDispatch = useAppDispatch();
     const productList = useAppSelector((state) => state.products.productList);
-    // console.log(productList);
     const imgUrl = "https://info-shop-now.vijee.in/";
 
 
@@ -133,14 +130,12 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
 
     }
 
-
-
     // console.log(image);
 
     return (
 
         <>
-            <form className='signup-box' onSubmit={handleProductSubmit}>
+            <form className='product-form-box' onSubmit={handleProductSubmit}>
                 {guid ? <h3> Edit Product </h3> : <h3> Add Product </h3>}
                 <label className='form-group'>
                     <div className='form-label'>  Name </div>
@@ -161,14 +156,12 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
                     <input className='form-control password' type="number" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
                 </label>
 
-                <div className='signup-footer'>
+                <div className='product-form-footer'>
 
                     {guid ? <button className='btn-primary' type="submit"> Edit Product </button> :
                         <button className='btn-primary' type="submit"> Add Product </button>}
                 </div>
             </form>
-
-
 
         </>
     )

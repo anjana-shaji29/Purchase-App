@@ -35,7 +35,7 @@ const initialState: State = {
 }
  
 
-const PurchaseForm = ({onHide = ()=> {}, productId}) => {
+const PurchaseForm = ({onHide = ()=> {}, productId, toast, toastMessage}) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count  } = state;
@@ -57,12 +57,14 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
 
                 if (data.payload.data.status === 200) {
                     onHide();
-                    // reduxDispatch(getPurchases())
-                    // setShowToast(true);
-                    // setTimeout(() => {
-                    //     setShowToast(false);
-                        
-                    // }, 2000);
+                    reduxDispatch(getPurchases())
+                    toastMessage("Purchase Added");
+                        toast();
+                      
+                        setTimeout(() => {
+                            toast(false);
+
+                        }, 2000);
                     
                 }
 
@@ -88,7 +90,7 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
     return (
 
         <>
-        <form className='signup-box' onSubmit={handlePurchase}>
+        <form className='purchase-form-box' onSubmit={handlePurchase}>
             <h3> {name} </h3> 
             <p> {details} </p>
 
@@ -101,10 +103,10 @@ const PurchaseForm = ({onHide = ()=> {}, productId}) => {
                 <input className='form-control password' type="number" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
             </label> 
 
-            <div className='signup-footer'>
+            <div className='purchase-form-footer'>
                
               <button className='btn-primary' type="submit"> Add To Cart  </button>  
-             <button className='btn btn-secondary' type="submit"> Cancel </button>       
+             <button className='btn btn-secondary' type="button" onClick={onHide}> Cancel </button>       
             </div>
         </form>
 

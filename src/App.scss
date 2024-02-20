@@ -70,8 +70,8 @@ h3 {
   background-color: var(--color-primary);
   border: none;
   border-radius: 10px;
-  min-height: 40px;
-  padding: 0 20px;
+  min-height: 35px;
+  padding: 0 15px;
   color: var(--color-white);
   cursor: pointer;
 }
@@ -79,9 +79,10 @@ a {
   color: var(--color-bg);
   text-decoration: none;
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
+    
   }
   &:active{
-    text-decoration: underline;
+    // text-decoration: underline;
   }
 }

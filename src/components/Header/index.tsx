@@ -10,7 +10,7 @@ const Header = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { userDetails } = useAppSelector((state) => state.auth);
-    console.log(userDetails);
+    // console.log(userDetails);
 
 const handleLogOut = ()=> {
     dispatch(logOut())

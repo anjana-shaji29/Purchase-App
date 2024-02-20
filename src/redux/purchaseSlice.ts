@@ -27,6 +27,12 @@ export const addPurchase = createAsyncThunk("addPurchase", async(body: object, s
    return fetchHandler(state,`${apiUrl}/purchases/add`,"POST", body)
 })
 
+export const deletePurchase = createAsyncThunk("deletePurchase", async(guid, state: any) => {
+   return fetchHandler(state,`${apiUrl}/purchases/remove`,"DELETE", {guid})
+})
+
+
+
 export const purchaseSlice = createSlice({
    name: 'purchases',
    initialState,
@@ -38,7 +44,7 @@ export const purchaseSlice = createSlice({
    extraReducers: (builder) => {
       builder
          .addCase(getPurchases.fulfilled, (state, action) => {
-            console.log(action);
+            // console.log(action);
             state.purchaseList = action?.payload?.data?.data;
 
          })

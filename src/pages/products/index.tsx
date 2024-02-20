@@ -31,36 +31,42 @@ const PageProducts = () => {
 
     },
     { label: "Name", accessor: "name", sortable: true, basecolumn: true },
+   
+    userDetails && userDetails.type === 1 && { label: "Stock", accessor: "count", sortable: false, basecolumn: false },
 
     {
         label: "Actions", render: (row: ProductItem) => {
             return <div>
-                {userDetails && userDetails.type === 1 ?
-                    <span className="material-symbols-outlined" onClick={() => {
-                        setSelectedProductId(row.guid);
-                        setShowFormModal(true);
+                 {userDetails && userDetails.type === 1 ? (
+                        <>
+                            <span className="material-symbols-outlined" onClick={() => {
+                                setSelectedProductId(row.guid);
+                                setShowFormModal(true);
+                            }}> edit </span>
+                            
+                            <span
+                                onClick={() => {
+                                    setSelectedProductId(row.guid);
+                                    setShow(true);
+                                }}
+                                style={{ color: "red" }}
+                                className="material-symbols-outlined"
+                            >
+                                delete
+                            </span>
 
-                    }}> edit
-                    </span>
-
-                    : <span className="material-symbols-outlined" onClick={() => {
-                        setSelectedProductId(row.guid);
-                        setShowPurchaseFormModal(true);
-
-                    }} > local_mall
-                    </span>}
-
-                {userDetails && userDetails.type === 1 &&
-                    <span onClick={() => {
-                        setSelectedProductId(row.guid);
-                        setShow(true);
-
-                    }
-                    }
-                        style={{ color: "red" }} className="material-symbols-outlined">
-                        delete
-                    </span >}
-            </div>;
+                            <span className="material-symbols-outlined" onClick={() => {
+                                setSelectedProductId(row.guid);
+                                setShowPurchaseFormModal(true);
+                            }}> local_mall </span>
+                        </>
+                    ) : (
+                        <span className="material-symbols-outlined" onClick={() => {
+                            setSelectedProductId(row.guid);
+                            setShowPurchaseFormModal(true);
+                        }}> local_mall </span>
+                    )}
+                </div>
         }, accessor: "guid"
     },]
 
@@ -165,10 +171,9 @@ const PageProducts = () => {
                 <ProductForm onHide={toggleFormModal} guid={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
             </Modal >
 
-            {userDetails && userDetails.type !== 1 &&
-                <Modal className='form-add-edit-purchase-modal' show={showPurchaseFormModal} onHide={togglePurchaseFormModal}>
-                    <PurchaseForm onHide={togglePurchaseFormModal} productId={selectedProductId}  />
-                </Modal >}
+                <Modal className='form-add-edit-purchase-modal' show={showPurchaseFormModal} onHide={togglePurchaseFormModal}  >
+                    <PurchaseForm onHide={togglePurchaseFormModal} productId={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
+                </Modal >
 
             <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
                 <Toast.Body> {toastMessage} </Toast.Body>
