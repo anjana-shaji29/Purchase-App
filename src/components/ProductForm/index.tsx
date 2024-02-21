@@ -1,7 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import "./index.scss";
-import { Link } from 'react-router-dom';
-import Toast from 'react-bootstrap/Toast';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 import { addProduct, editProduct, getProducts } from '../../redux/productSlice.ts';
 
@@ -39,7 +37,7 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count } = state;
-    
+
     const reduxDispatch = useAppDispatch();
     const productList = useAppSelector((state) => state.products.productList);
     const imgUrl = "https://info-shop-now.vijee.in/";
@@ -57,9 +55,9 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
                     if (data.payload.data.status === 200) {
                         onHide();
                         reduxDispatch(getProducts())
-                        toastMessage("Product Edited");
+                        toastMessage("Product Updated");
                         toast();
-                      
+
                         setTimeout(() => {
                             toast(false);
 
@@ -118,7 +116,7 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
         FR.readAsDataURL(file);
 
     }
-
+    console.log(image);
 
     const handleImage = (e) => {
         const file = e.target.files[0];
@@ -153,7 +151,8 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
                 </label>
                 <label className='form-group'>
                     <div className='form-label'> Count </div>
-                    <input className='form-control password' type="number" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
+             {guid ?  <input className='form-control password' type="number"  min="0" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required /> :
+             <input className='form-control password' type="number"  min="1" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />}       
                 </label>
 
                 <div className='product-form-footer'>

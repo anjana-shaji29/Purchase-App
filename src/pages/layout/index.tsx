@@ -4,12 +4,12 @@ import Header from '../../components/Header/index.tsx';
 import MobileHeader from '../../components/MobileHeader/index.tsx';
 
 const Layout = () => {
-   
+
     return (
         <div className='page'>
             <header>
-                <Header />    
-                <MobileHeader />          
+                <Header />
+                <MobileHeader />
             </header>
             <section> <Outlet /></section>
         </div>

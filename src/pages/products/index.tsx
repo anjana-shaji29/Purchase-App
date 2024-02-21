@@ -21,7 +21,7 @@ const PageProducts = () => {
     const [search, setSearch] = useState(String);
     const [error, setError] = useState<string>("");
     const [showPurchaseFormModal, setShowPurchaseFormModal] = useState<boolean>(false);
-    const [toastMessage, setToastMessage] = useState<string|null>(null); // Toast Message
+    const [toastMessage, setToastMessage] = useState<string | null>(null); // Toast Message
     // console.log(selectedProductId);
 
 
@@ -31,42 +31,43 @@ const PageProducts = () => {
 
     },
     { label: "Name", accessor: "name", sortable: true, basecolumn: true },
-   
+
     userDetails && userDetails.type === 1 && { label: "Stock", accessor: "count", sortable: false, basecolumn: false },
 
     {
         label: "Actions", render: (row: ProductItem) => {
             return <div>
-                 {userDetails && userDetails.type === 1 ? (
-                        <>
-                            <span className="material-symbols-outlined" onClick={() => {
-                                setSelectedProductId(row.guid);
-                                setShowFormModal(true);
-                            }}> edit </span>
-                            
-                            <span
-                                onClick={() => {
-                                    setSelectedProductId(row.guid);
-                                    setShow(true);
-                                }}
-                                style={{ color: "red" }}
-                                className="material-symbols-outlined"
-                            >
-                                delete
-                            </span>
+                {userDetails && userDetails.type === 1 ? (
+                    <>
+                        <span className="material-symbols-outlined" onClick={() => {
+                            setSelectedProductId(row.guid);
+                            setShowFormModal(true);
+                        }}> edit </span>
 
-                            <span className="material-symbols-outlined" onClick={() => {
+                        <span
+                            onClick={() => {
                                 setSelectedProductId(row.guid);
-                                setShowPurchaseFormModal(true);
-                            }}> local_mall </span>
-                        </>
-                    ) : (
+                                setShow(true);
+                            }}
+                            style={{ color: "red" }}
+                            className="material-symbols-outlined"
+                        >
+                            delete
+                        </span>
+
                         <span className="material-symbols-outlined" onClick={() => {
                             setSelectedProductId(row.guid);
                             setShowPurchaseFormModal(true);
                         }}> local_mall </span>
-                    )}
-                </div>
+                    </>
+                ) : (
+                    <span className="material-symbols-outlined" onClick={() => {
+                        setSelectedProductId(row.guid);
+                        setShowPurchaseFormModal(true);
+                    }}> local_mall
+                    </span>
+                )}
+            </div>
         }, accessor: "guid"
     },]
 
@@ -98,8 +99,8 @@ const PageProducts = () => {
                 .then((data) => {
                     if (data.payload.data.status === 200) {
                         setShowToast(true);
-                       setToastMessage("Product deleted");
-                       
+                        setToastMessage("Product deleted");
+
                         reduxDispatch(getProducts());
                         setTimeout(() => {
                             setShowToast(false);
@@ -171,9 +172,9 @@ const PageProducts = () => {
                 <ProductForm onHide={toggleFormModal} guid={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
             </Modal >
 
-                <Modal className='form-add-edit-purchase-modal' show={showPurchaseFormModal} onHide={togglePurchaseFormModal}  >
-                    <PurchaseForm onHide={togglePurchaseFormModal} productId={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
-                </Modal >
+            <Modal className='form-add-edit-purchase-modal' show={showPurchaseFormModal} onHide={togglePurchaseFormModal}  >
+                <PurchaseForm onHide={togglePurchaseFormModal} productId={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
+            </Modal >
 
             <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
                 <Toast.Body> {toastMessage} </Toast.Body>

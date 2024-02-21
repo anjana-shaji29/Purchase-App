@@ -18,7 +18,7 @@ const PagePurchases = () => {
     const purchaseList = useAppSelector((state) => state.purchases.purchaseList);
     // console.log(purchaseList);
     const [showToast, setShowToast] = useState<boolean>(false); // Toast
-    const [toastMessage, setToastMessage] = useState<string|null>(null); // Toast Message
+    const [toastMessage, setToastMessage] = useState<string | null>(null); // Toast Message
 
     useEffect(() => {
         reduxDispatch(getPurchases())
@@ -33,8 +33,8 @@ const PagePurchases = () => {
                     if (data.payload.data.status === 200) {
                         setShowToast(true);
                         reduxDispatch(getPurchases());
-                       setToastMessage("Purchase deleted");
-                       
+                        setToastMessage("Purchase deleted");
+
                         setTimeout(() => {
                             setShowToast(false);
 

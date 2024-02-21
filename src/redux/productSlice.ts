@@ -36,7 +36,6 @@ export const editProduct = createAsyncThunk("editProduct", async(body: object, s
 })
 
 
-
 export const productSlice = createSlice({
    name: 'products',
    initialState,

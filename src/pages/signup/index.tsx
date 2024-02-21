@@ -4,7 +4,7 @@ import "./index.scss";
 
 
 const PageSignup = () => {
- 
+
     return (
         <div className='signup-wrap'>
             <div className='logo-container'>
@@ -12,8 +12,8 @@ const PageSignup = () => {
             </div>
             <Form />
         </div>
-        
+
     );
 };
- 
+
 export default PageSignup;

@@ -5,7 +5,6 @@ import { signup } from '../../redux/authSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 import { getUsers} from '../../redux/userSlice.ts';
 
-
  interface State{
     firstname: string;
     lastname: string;
@@ -34,7 +33,7 @@ const initialState: State = {
 }
  
  
-const Form = ({onHide = ()=> {}, toast = value=> value, toastMessage = value=> value }) => {
+const Form = ({onHide = ()=> {}, toast , toastMessage = value=> value }) => {
  
     const {userDetails, jwt } = useAppSelector(state => state.auth);
     // console.log(userDetails);
@@ -42,11 +41,11 @@ const Form = ({onHide = ()=> {}, toast = value=> value, toastMessage = value=> v
     const reduxDispatch = useAppDispatch();
     const [state, dispatch] = useReducer(reducer, initialState);
     const { username, password, firstname, lastname, confirmPassword, type } = state;
-   
+//    const [showToast, setShowToast] = useState<false>; // Toast
     const [error, setError] = useState<string>('');
     // console.log(type);
 
-
+    
     const [show, setShow] = useState<boolean>(false);
  
  
@@ -83,11 +82,11 @@ const Form = ({onHide = ()=> {}, toast = value=> value, toastMessage = value=> v
                     data => {
                         if (data.payload.data.status === 200) {
                             console.log("Hi");
-                            toastMessage("User Added");
-                            toast();
+                            // toastMessage("User Added");
+                            // toast();
                           
                             setTimeout(() => {
-                                toast(false);
+                                // toast(false);
                             }, 2000);
                               
                             navigate('/');
@@ -147,6 +146,10 @@ const Form = ({onHide = ()=> {}, toast = value=> value, toastMessage = value=> v
                     <button className='btn-primary' type="submit"> Signup </button>
                 </div>
             </form>
+
+            {/* <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
+                <Toast.Body> User Added </Toast.Body>
+            </Toast> */}
            
         </>
  
