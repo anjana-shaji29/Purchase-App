@@ -64,6 +64,14 @@ const PurchaseForm = ({ onHide = () => { }, productId, toast, toastMessage }) =>
 
                         }, 2000);
 
+                    } else{
+                        onHide();
+                        toastMessage(data.payload.data.message);
+                        toast();
+                        setTimeout(() => {
+                            toast(false);
+
+                        }, 2000);
                     }
 
                 })

@@ -62,7 +62,15 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
 
                         }, 2000);
 
-                    }
+                    } else {
+                        onHide();
+                        toast();
+                        toastMessage(data.payload.data.message);
+                        setTimeout(() => {
+                            toast(false);
+
+                        }, 2000);
+                      }
 
                 })
         } else {
