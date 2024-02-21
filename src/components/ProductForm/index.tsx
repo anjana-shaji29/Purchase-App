@@ -37,7 +37,6 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count } = state;
-
     const reduxDispatch = useAppDispatch();
     const productList = useAppSelector((state) => state.products.productList);
     const imgUrl = "https://info-shop-now.vijee.in/";
@@ -81,7 +80,15 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
 
                         }, 2000);
 
-                    }
+                    } else {
+                        onHide();
+                        toast();
+                        toastMessage(data.payload.data.message);
+                        setTimeout(() => {
+                            toast(false);
+
+                        }, 2000);
+                      }
 
                 })
         }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './index.scss';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import { logOut } from '../../redux/authSlice.ts';
@@ -7,6 +7,10 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 
 
 const Header = () => {
+
+    const [currentPath, setCurrentPath] = useState(window.location.pathname);
+    console.log(currentPath);
+
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { userDetails } = useAppSelector((state) => state.auth);
@@ -17,8 +21,10 @@ const Header = () => {
         setTimeout(() => {
             navigate('/');
         }, 100)
+    }
 
-
+    const handleNavLinkClick = (path) => {
+        setCurrentPath(path);
     }
 
 
@@ -30,10 +36,10 @@ const Header = () => {
             <nav>
                 <div className='menu-container'>
                     <ul>
-                        <li>  <Link to="/">  Home </Link> </li>
-                        {userDetails && userDetails.type === 1 && <li> <Link to="/users">  Users </Link> </li>}
-                        <li>  <Link to="/products"> Products </Link>  </li>
-                        <li>  <Link to="/purchases"> Purchases </Link>  </li>
+                        <li>  <Link to="/" className={currentPath === '/' ? 'active' : ''} onClick={() => handleNavLinkClick('/')} >  Home </Link> </li>
+                        {userDetails && userDetails.type === 1 && <li> <Link to="/users" className={currentPath === '/users' ? 'active' : ''} onClick={() => handleNavLinkClick('/users')}>  Users </Link> </li>}
+                        <li>  <Link to="/products" className={currentPath === '/products' ? 'active' : ''} onClick={() => handleNavLinkClick('/products')}> Products </Link>  </li>
+                        <li>  <Link to="/purchases" className={currentPath === '/purchases' ? 'active' : ''} onClick={() => handleNavLinkClick('/purchases')}> Purchases </Link>  </li>
                         <li> <DropdownButton className='dropDown-Icon' id="dropdown-basic-button" title={<span className="material-symbols-outlined">account_circle</span>}>
                             <div className='dropDown-box'>
                                 <span className="material-symbols-outlined">account_circle</span>
