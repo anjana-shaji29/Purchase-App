@@ -2,6 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import "./index.scss";
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 import { addPurchase, getPurchases } from '../../redux/purchaseSlice.ts';
+import { showMessage, hideMessage } from '../../redux/toastSlice.ts';
 
 
 interface State {
@@ -33,7 +34,7 @@ const initialState: State = {
 }
 
 
-const PurchaseForm = ({ onHide = () => { }, productId, toast, toastMessage }) => {
+const PurchaseForm = ({ onHide = () => { }, productId }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count } = state;
@@ -56,22 +57,16 @@ const PurchaseForm = ({ onHide = () => { }, productId, toast, toastMessage }) =>
 
                     if (data.payload.data.status === 200) {
                         onHide();
-                        reduxDispatch(getPurchases())
-                        toastMessage("Purchase Added");
-                        toast();
-
+                        reduxDispatch(showMessage("Purchase Added"));
                         setTimeout(() => {
-                            toast(false);
-
+                            reduxDispatch(hideMessage());
                         }, 2000);
 
-                    } else{
+                    } else {
                         onHide();
-                        toastMessage(data.payload.data.message);
-                        toast();
+                        reduxDispatch(showMessage(data.payload.data.message));
                         setTimeout(() => {
-                            toast(false);
-
+                            reduxDispatch(hideMessage());
                         }, 2000);
                     }
 
@@ -95,10 +90,10 @@ const PurchaseForm = ({ onHide = () => { }, productId, toast, toastMessage }) =>
     }, [productId, productList]);
 
 
-    useEffect( ()=> {
-        if(count <= 0){
+    useEffect(() => {
+        if (count <= 0) {
             setError("Minimum Count must be 1!");
-        }else{
+        } else {
             setError("");
         }
     }, [count])

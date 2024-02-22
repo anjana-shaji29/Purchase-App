@@ -33,7 +33,16 @@
       flex: 1;
     }
   }
-
+.toast-container{
+  width:200px;
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  top:0;
+  left:50%;
+  transform: translate(-50%);
+  z-index: 30;
+}
  
   
 }

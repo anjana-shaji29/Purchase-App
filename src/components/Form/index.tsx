@@ -4,6 +4,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../../redux/authSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 import { getUsers } from '../../redux/userSlice.ts';
+import { showMessage, hideMessage } from '../../redux/toastSlice.ts';
+
 
 
 interface State {
@@ -34,7 +36,7 @@ const initialState: State = {
 }
 
 
-const Form = ({ onHide = () => { }, toast, toastMessage }) => {
+const Form = ({ onHide = () => { } }) => {
 
     const { userDetails, jwt } = useAppSelector(state => state.auth);
     const navigate = useNavigate();
@@ -42,7 +44,6 @@ const Form = ({ onHide = () => { }, toast, toastMessage }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const { username, password, firstname, lastname, confirmPassword, type } = state;
     const [error, setError] = useState<string>('');
-
 
 
     const SignupFn = e => {
@@ -59,14 +60,17 @@ const Form = ({ onHide = () => { }, toast, toastMessage }) => {
                         if (data.payload.data.status === 200) {
                             onHide();
                             reduxDispatch(getUsers())
-                            toast();
-                            toastMessage("User Added");
-
+                            reduxDispatch(showMessage("User Added"));
                             setTimeout(() => {
-                                toast(false);
-
+                                reduxDispatch(hideMessage());
                             }, 2000);
 
+
+                        } else{
+                            reduxDispatch(showMessage(data.payload.data.message));
+                            setTimeout(() => {
+                                reduxDispatch(hideMessage());
+                            }, 2000);
                         }
 
                     })
@@ -77,17 +81,19 @@ const Form = ({ onHide = () => { }, toast, toastMessage }) => {
                     .then(
                         data => {
                             if (data.payload.data.status === 200) {
-                                // toast();
-                                // toastMessage("User Added");
-                               
-                                // setTimeout(() => {
-                                //     toast(false);
-                                // }, 2000);
-                       
-                                navigate('/');
+                                reduxDispatch(showMessage("User Added"));
+                                setTimeout(() => {
+                                    reduxDispatch(hideMessage());
+                                    navigate('/');
+                                }, 1000);
 
-                            } else {
-                                setError(data.payload.data.message);
+                               
+
+                            } else{
+                                reduxDispatch(showMessage(data.payload.data.message));
+                                setTimeout(() => {
+                                    reduxDispatch(hideMessage());
+                                }, 2000);
                             }
                         }
                     );

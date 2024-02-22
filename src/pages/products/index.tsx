@@ -6,9 +6,9 @@ import Table from '../../components/table/index.tsx';
 import { ProductItem } from '../../redux/productSlice.ts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Toast from 'react-bootstrap/Toast';
 import ProductForm from '../../components/ProductForm/index.tsx';
 import PurchaseForm from '../../components/PurchaseForm/index.tsx';
+import { showMessage, hideMessage } from '../../redux/toastSlice.ts';
 
 const PageProducts = () => {
 
@@ -98,17 +98,16 @@ const PageProducts = () => {
             reduxDispatch(deleteProduct(selectedProductId))
                 .then((data) => {
                     if (data.payload.data.status === 200) {
-                        setShowToast(true);
-                        setToastMessage("Product deleted");
-
-                        reduxDispatch(getProducts());
+                        reduxDispatch(showMessage("Product Deleted"));
                         setTimeout(() => {
-                            setShowToast(false);
-
+                            reduxDispatch(hideMessage());
                         }, 2000);
                         handleClose();
                     } else {
-                        console.error("Failed to delete product.");
+                        reduxDispatch(showMessage(data.payload.data.message));
+                        setTimeout(() => {
+                            reduxDispatch(hideMessage());
+                        }, 2000);
                     }
                 });
         }
@@ -169,16 +168,12 @@ const PageProducts = () => {
 
 
             <Modal className='form-add-edit-product-modal' show={showFormModal} onHide={toggleFormModal}>
-                <ProductForm onHide={toggleFormModal} guid={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
+                <ProductForm onHide={toggleFormModal} guid={selectedProductId} />
             </Modal >
 
             <Modal className='form-add-edit-purchase-modal' show={showPurchaseFormModal} onHide={togglePurchaseFormModal}  >
-                <PurchaseForm onHide={togglePurchaseFormModal} productId={selectedProductId} toast={setShowToast} toastMessage={setToastMessage} />
+                <PurchaseForm onHide={togglePurchaseFormModal} productId={selectedProductId} />
             </Modal >
-
-            <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
-                <Toast.Body> {toastMessage} </Toast.Body>
-            </Toast>
 
         </div>
 

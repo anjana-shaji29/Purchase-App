@@ -7,16 +7,15 @@ import { User } from '../../redux/userSlice.ts';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from '../../components/Form/index.tsx';
-import Toast from 'react-bootstrap/Toast';
+import { showMessage, hideMessage } from '../../redux/toastSlice.ts';
+
+
 
 const PageUsers = () => {
 
     const [show, setShow] = useState<boolean>(false);
     const [showFormModal, setShowFormModal] = useState<boolean>(false);
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-    const [showToast, setShowToast] = useState<boolean>(false);
-    const [toastMessage, setToastMessage] = useState<string | null>(null); // Toast Message
-
     const [search, setSearch] = useState(String);
 
     const columns = [{ label: "Name", accessor: "name", sortable: true, basecolumn: true },
@@ -62,16 +61,16 @@ const PageUsers = () => {
             reduxDispatch(deleteUser(selectedUserId))
                 .then((data) => {
                     if (data.payload.data.status === 200) {
-                        setShowToast(true);
-                        setToastMessage("User deleted");
-                        reduxDispatch(getUsers());
+                        reduxDispatch(showMessage("User Deleted"));
                         setTimeout(() => {
-                            setShowToast(false);
-
+                            reduxDispatch(hideMessage());
                         }, 2000);
                         handleClose();
                     } else {
-                        console.error("Failed to delete user.");
+                        reduxDispatch(showMessage(data.payload.data.message));
+                        setTimeout(() => {
+                            reduxDispatch(hideMessage());
+                        }, 2000);
                     }
                 });
         }
@@ -123,12 +122,8 @@ const PageUsers = () => {
 
 
             <Modal className='form-add-edit-user-modal' show={showFormModal} onHide={toggleFormModal} >
-                <Form onHide={toggleFormModal} toast={setShowToast} toastMessage={setToastMessage} />
+                <Form onHide={toggleFormModal}  />
             </Modal>
-
-            <Toast className='toast-container' show={showToast} onClose={() => setShowToast(false)}>
-                <Toast.Body> {toastMessage} </Toast.Body>
-            </Toast>
 
         </div>
 
