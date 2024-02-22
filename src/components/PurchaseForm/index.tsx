@@ -42,6 +42,7 @@ const PurchaseForm = ({ onHide = () => { }, productId, toast, toastMessage }) =>
     const productList = useAppSelector((state) => state.products.productList);
     // console.log(productList);
     const imgUrl = "https://info-shop-now.vijee.in/";
+    const [error, setError] = useState<string>('');
 
 
     const handlePurchase = (e) => {
@@ -93,6 +94,15 @@ const PurchaseForm = ({ onHide = () => { }, productId, toast, toastMessage }) =>
         }
     }, [productId, productList]);
 
+
+    useEffect( ()=> {
+        if(count <= 0){
+            setError("Minimum Count must be 1!");
+        }else{
+            setError("");
+        }
+    }, [count])
+
     return (
 
         <>
@@ -107,6 +117,7 @@ const PurchaseForm = ({ onHide = () => { }, productId, toast, toastMessage }) =>
                 <label className='form-group'>
                     <div className='form-label'> Count </div>
                     <input className='form-control password' type="number" min="1" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />
+                    {error && <p style={{ color: "red" }}> {error} </p>}
                 </label>
 
                 <div className='purchase-form-footer'>

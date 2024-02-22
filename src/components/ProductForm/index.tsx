@@ -26,7 +26,7 @@ const initialState: State = {
     name: '',
     // image: '',
     details: '',
-    count: 0,
+    count: 1,
     image: '',
     imageName: ''
 
@@ -40,6 +40,7 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
     const reduxDispatch = useAppDispatch();
     const productList = useAppSelector((state) => state.products.productList);
     const imgUrl = "https://info-shop-now.vijee.in/";
+    const [error, setError] = useState<string>('');
 
 
     const handleProductSubmit = (e) => {
@@ -70,7 +71,7 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
                             toast(false);
 
                         }, 2000);
-                      }
+                    }
 
                 })
         } else {
@@ -96,7 +97,7 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
                             toast(false);
 
                         }, 2000);
-                      }
+                    }
 
                 })
         }
@@ -119,6 +120,15 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
     }, [guid, productList]);
 
 
+    useEffect(() => {
+       if (guid && count < 0) {
+            setError("Minimum count can not be negative!");
+        } else {
+            setError("");
+        }
+    }, [guid, count]);
+
+
     function readFile(file) {
 
         const FR = new FileReader();
@@ -131,7 +141,6 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
         FR.readAsDataURL(file);
 
     }
-    console.log(image);
 
     const handleImage = (e) => {
         const file = e.target.files[0];
@@ -142,8 +151,6 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
         readFile(file);
 
     }
-
-    // console.log(image);
 
     return (
 
@@ -166,8 +173,9 @@ const ProductForm = ({ onHide = () => { }, guid, toast, toastMessage }) => {
                 </label>
                 <label className='form-group'>
                     <div className='form-label'> Count </div>
-             {guid ?  <input className='form-control password' type="number"  min="0" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required /> :
-             <input className='form-control password' type="number"  min="1" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />}       
+                    {guid ? <input className='form-control password' type="number" min="0" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required /> :
+                        <input className='form-control password' type="number" min="1" value={count} onChange={e => dispatch({ count: e?.target?.value })} placeholder="Count" required />}
+                    {error && <p style={{ color: "red" }}> {error} </p>}
                 </label>
 
                 <div className='product-form-footer'>

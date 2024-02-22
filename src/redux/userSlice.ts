@@ -22,7 +22,7 @@ export const getUsers = createAsyncThunk("getUsers", async (_, state : any) => {
   return fetchHandler(state,`${apiUrl}/users/list`,"GET", {} );
 })
 
-export const deleteUser =  createAsyncThunk("deleteUser", async (guid, state : any) => {
+export const deleteUser =  createAsyncThunk("deleteUser", async (guid: string, state : any) => {
    return fetchHandler(state,`${apiUrl}/users/remove`,"DELETE", {guid} );
  })
 

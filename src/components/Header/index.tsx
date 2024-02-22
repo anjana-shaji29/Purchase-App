@@ -9,12 +9,9 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 const Header = () => {
 
     const [currentPath, setCurrentPath] = useState(window.location.pathname);
-    console.log(currentPath);
-
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { userDetails } = useAppSelector((state) => state.auth);
-    // console.log(userDetails);
 
     const handleLogOut = () => {
         dispatch(logOut())
@@ -42,7 +39,7 @@ const Header = () => {
                         <li>  <Link to="/purchases" className={currentPath === '/purchases' ? 'active' : ''} onClick={() => handleNavLinkClick('/purchases')}> Purchases </Link>  </li>
                         <li> <DropdownButton className='dropDown-Icon' id="dropdown-basic-button" title={<span className="material-symbols-outlined">account_circle</span>}>
                             <div className='dropDown-box'>
-                                <span className="material-symbols-outlined">account_circle</span>
+                                <span className="material-symbols-outlined"> account_circle </span>
                                 <h6> {userDetails.username} </h6> <br />
                                 <button className='btn-primary' onClick={handleLogOut}>Logout</button>
                             </div>
