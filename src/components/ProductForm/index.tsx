@@ -56,8 +56,8 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
 
                     if (data.payload.data.status === 200) {
                         onHide();
-                        reduxDispatch(getProducts())
                         reduxDispatch(showMessage("Product Updated"));
+                        reduxDispatch(getProducts())
                             setTimeout(() => {
                               reduxDispatch(hideMessage());
                             }, 2000);
@@ -78,8 +78,8 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
                     if (data.payload.data.status === 200) {
 
                         onHide();
-                        reduxDispatch(getProducts())
                         reduxDispatch(showMessage("Product Added"));
+                        reduxDispatch(getProducts())
                             setTimeout(() => {
                               reduxDispatch(hideMessage());
                             }, 2000);

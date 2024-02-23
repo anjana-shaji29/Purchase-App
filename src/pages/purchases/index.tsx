@@ -29,6 +29,7 @@ const PagePurchases = () => {
                 .then((data) => {
                     if (data.payload.data.status === 200) {
                         reduxDispatch(showMessage("Purchase Deleted"));
+                        reduxDispatch(getPurchases())
                         setTimeout(() => {
                             reduxDispatch(hideMessage());
                         }, 2000);

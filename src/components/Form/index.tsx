@@ -66,7 +66,7 @@ const Form = ({ onHide = () => { } }) => {
                             }, 2000);
 
 
-                        } else{
+                        } else {
                             reduxDispatch(showMessage(data.payload.data.message));
                             setTimeout(() => {
                                 reduxDispatch(hideMessage());
@@ -87,9 +87,8 @@ const Form = ({ onHide = () => { } }) => {
                                     navigate('/');
                                 }, 1000);
 
-                               
 
-                            } else{
+                            } else {
                                 reduxDispatch(showMessage(data.payload.data.message));
                                 setTimeout(() => {
                                     reduxDispatch(hideMessage());

@@ -62,6 +62,7 @@ const PageUsers = () => {
                 .then((data) => {
                     if (data.payload.data.status === 200) {
                         reduxDispatch(showMessage("User Deleted"));
+                        reduxDispatch(getUsers())
                         setTimeout(() => {
                             reduxDispatch(hideMessage());
                         }, 2000);

@@ -1,4 +1,3 @@
-// toastSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
 
 interface ToastState {

@@ -99,6 +99,7 @@ const PageProducts = () => {
                 .then((data) => {
                     if (data.payload.data.status === 200) {
                         reduxDispatch(showMessage("Product Deleted"));
+                        reduxDispatch(getProducts())
                         setTimeout(() => {
                             reduxDispatch(hideMessage());
                         }, 2000);
