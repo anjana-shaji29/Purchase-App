@@ -13,21 +13,20 @@ interface TableProps {
     }[];
     data: any[]
 }
-const Table = ({ columns, data }: TableProps) => {
-
-    // console.log(data);
-    const [sortType, setsortType] = useState<string>("asc");
+const Table = ({ columns, data }: TableProps) => { 
+ 
+    const [sortType, setsortType] = useState<string>("asc"); // Setting the sortType initially to ascending order
     const [sortColumn, setSortColumn] = useState<string>("");
 
     useEffect(() => {
         const basecolumn = columns.find(item => {
-            return item.basecolumn;
-        })?.accessor || "";
-        setSortColumn(basecolumn)
+            return item.basecolumn;  
+        })?.accessor || ""; // finding the accessor of the basecolumn
+        setSortColumn(basecolumn) // Setting the basecolumn as the sort column 
     }, [columns])
 
     const toggleSortType = (column: any) => {
-        if (sortColumn === column.accessor) {
+        if (sortColumn === column.accessor) { 
             setsortType(sortType === 'asc' ? 'desc' : 'asc');
         } else {
             setsortType('asc');
@@ -38,7 +37,7 @@ const Table = ({ columns, data }: TableProps) => {
     const renderTableColGroup = () => {
         return <colgroup>
             {columns.map(column => {
-                return <col className={`col col-${column.accessor}`} key={column.label} />
+                return <col className={`col col-${column.accessor}`} key={column.label} /> // For styling 
             })}
         </colgroup>
 
@@ -66,9 +65,9 @@ const Table = ({ columns, data }: TableProps) => {
 
          
         if (sortType === 'asc') {
-            return a[sortColumn]?.toLowerCase() > b[sortColumn]?.toLowerCase() ? 1 : -1
+            return a[sortColumn]?.toLowerCase() > b[sortColumn]?.toLowerCase() ? 1 : -1 // Sort in ascending order
         } else {
-            return b[sortColumn]?.toLowerCase() > a[sortColumn]?.toLowerCase() ? 1 : -1
+            return b[sortColumn]?.toLowerCase() > a[sortColumn]?.toLowerCase() ? 1 : -1 // Sort in descending order
         }
     }
 

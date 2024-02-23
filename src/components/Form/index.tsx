@@ -39,37 +39,38 @@ const initialState: State = {
 const Form = ({ onHide = () => { } }) => {
 
     const { userDetails, jwt } = useAppSelector(state => state.auth);
-    const navigate = useNavigate();
-    const reduxDispatch = useAppDispatch();
+    const navigate = useNavigate(); 
+    const reduxDispatch = useAppDispatch(); // To dispatch store actions
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { username, password, firstname, lastname, confirmPassword, type } = state;
-    const [error, setError] = useState<string>('');
+    const { username, password, firstname, lastname, confirmPassword, type } = state; 
+    const [error, setError] = useState<string>(''); // Errors
 
 
     const SignupFn = e => {
 
         e.preventDefault();
 
-        if (password === confirmPassword) {
+        if (password === confirmPassword) { 
 
-            if (userDetails && userDetails.type === 1) {
+            if (userDetails && userDetails.type === 1) { // Checking if the userdetails exist & is admin 
 
                 reduxDispatch(signup({ name: `${firstname} ${lastname}`, username, password, type }))
                     .then(data => {
 
                         if (data.payload.data.status === 200) {
-                            onHide();
-                            reduxDispatch(getUsers())
-                            reduxDispatch(showMessage("User Added"));
+                            onHide(); // Hide the Signup form
+                            reduxDispatch(getUsers()) // Displaying the UserList
+                            reduxDispatch(showMessage("User Added")); // Setting the toast message
                             setTimeout(() => {
-                                reduxDispatch(hideMessage());
+                                reduxDispatch(hideMessage()); // Hide the toast 
                             }, 2000);
 
 
                         } else {
-                            reduxDispatch(showMessage(data.payload.data.message));
+                            onHide(); // Hide the Signup form
+                            reduxDispatch(showMessage(data.payload.data.message)); // Setting the error as toast
                             setTimeout(() => {
-                                reduxDispatch(hideMessage());
+                                reduxDispatch(hideMessage()); // Hide the toast 
                             }, 2000);
                         }
 
@@ -81,17 +82,17 @@ const Form = ({ onHide = () => { } }) => {
                     .then(
                         data => {
                             if (data.payload.data.status === 200) {
-                                reduxDispatch(showMessage("User Added"));
+                                reduxDispatch(showMessage("User Added")); // Setting the toast message
                                 setTimeout(() => {
-                                    reduxDispatch(hideMessage());
-                                    navigate('/');
+                                    reduxDispatch(hideMessage()); // Hide the toast 
+                                    navigate('/'); // Navigate 
                                 }, 1000);
 
 
                             } else {
-                                reduxDispatch(showMessage(data.payload.data.message));
+                                reduxDispatch(showMessage(data.payload.data.message)); // Setting the error as toast
                                 setTimeout(() => {
-                                    reduxDispatch(hideMessage());
+                                    reduxDispatch(hideMessage()); // Hide the toast
                                 }, 2000);
                             }
                         }
@@ -99,7 +100,7 @@ const Form = ({ onHide = () => { } }) => {
             }
         }
         else {
-            setError("Password doesn't match");
+            setError("Password doesn't match"); // Setting error message
         }
 
 

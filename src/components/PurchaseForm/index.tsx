@@ -38,10 +38,8 @@ const PurchaseForm = ({ onHide = () => { }, productId }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count } = state;
-    const [showToast, setShowToast] = useState<boolean>(false);
     const reduxDispatch = useAppDispatch();
     const productList = useAppSelector((state) => state.products.productList);
-    // console.log(productList);
     const imgUrl = "https://info-shop-now.vijee.in/";
     const [error, setError] = useState<string>('');
 
@@ -56,17 +54,17 @@ const PurchaseForm = ({ onHide = () => { }, productId }) => {
                 .then(data => {
 
                     if (data.payload.data.status === 200) {
-                        onHide();
-                        reduxDispatch(showMessage("Purchase Added"));
+                        onHide();  // Hide the purchase form
+                        reduxDispatch(showMessage("Purchase Added")); // Setting the toast message
                         setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                            reduxDispatch(hideMessage()); // Hide the toast
                         }, 2000);
 
                     } else {
                         onHide();
-                        reduxDispatch(showMessage(data.payload.data.message));
-                        setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                        reduxDispatch(showMessage(data.payload.data.message));  // Setting the error as toast
+                        setTimeout(() => { 
+                            reduxDispatch(hideMessage()); // Hide the toast
                         }, 2000);
                     }
 
@@ -76,9 +74,9 @@ const PurchaseForm = ({ onHide = () => { }, productId }) => {
 
     useEffect(() => {
         if (productId) {
-            const product = productList.find((product) => product.guid === productId);
+            const product = productList.find((product) => product.guid === productId); // Finding the product by comparing the passed guid & each product guid
             if (product) {
-                dispatch({
+                dispatch({ // Dispatch details if product found
                     name: product.name,
                     details: product.details,
                     // count: product.count,

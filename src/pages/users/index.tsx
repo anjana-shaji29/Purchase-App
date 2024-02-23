@@ -13,10 +13,10 @@ import { showMessage, hideMessage } from '../../redux/toastSlice.ts';
 
 const PageUsers = () => {
 
-    const [show, setShow] = useState<boolean>(false);
+    const [show, setShow] = useState<boolean>(false); // Delete modal
     const [showFormModal, setShowFormModal] = useState<boolean>(false);
     const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-    const [search, setSearch] = useState(String);
+    const [search, setSearch] = useState(String);  // Search string
 
     const columns = [{ label: "Name", accessor: "name", sortable: true, basecolumn: true },
     { label: "Username", accessor: "username", sortable: true, basecolumn: false },
@@ -36,12 +36,11 @@ const PageUsers = () => {
     },]
 
     const reduxDispatch = useAppDispatch();
-    const userListOriginal = useAppSelector((state) => state.users.userList);
-    const [userList, setUserList] = useState(Array<User>);
+    const userListOriginal = useAppSelector((state) => state.users.userList); // Reading the userList
+    const [userList, setUserList] = useState(Array<User>); // Creating a copy of userList array 
 
     useEffect(() => {
         reduxDispatch(getUsers())
-
     }, [reduxDispatch])
 
     useEffect(() => {
@@ -51,7 +50,7 @@ const PageUsers = () => {
     }, [userListOriginal, search])
 
     const handleClose = () => {
-        setShow(false);
+        setShow(false); // Hide delete modal
         setSelectedUserId(null);
     };
 
@@ -61,25 +60,25 @@ const PageUsers = () => {
             reduxDispatch(deleteUser(selectedUserId))
                 .then((data) => {
                     if (data.payload.data.status === 200) {
-                        reduxDispatch(showMessage("User Deleted"));
+                        reduxDispatch(showMessage("User Deleted")); // Setting the toast message 
                         reduxDispatch(getUsers())
                         setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                            reduxDispatch(hideMessage()); // Hide the toast message
                         }, 2000);
-                        handleClose();
+                        handleClose(); // Hide the delete modal
                     } else {
                         reduxDispatch(showMessage(data.payload.data.message));
                         setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                            reduxDispatch(hideMessage()); // Hide the toast message 
                         }, 2000);
                     }
                 });
         }
-        handleClose();
+        handleClose(); // Hide the delete modal
     };
 
     const toggleFormModal = () => {
-        setShowFormModal(!showFormModal);
+        setShowFormModal(!showFormModal); 
     }
 
 

@@ -15,14 +15,11 @@ const PageProducts = () => {
     const { userDetails } = useAppSelector(state => state.auth);
     const imgUrl = "https://info-shop-now.vijee.in/";
     const [show, setShow] = useState<boolean>(false); // Delete Modal
-    const [showFormModal, setShowFormModal] = useState<boolean>(false); // Form Modal
+    const [showFormModal, setShowFormModal] = useState<boolean>(false); // product Form Modal
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
-    const [showToast, setShowToast] = useState<boolean>(false); // Toast
-    const [search, setSearch] = useState(String);
+    const [search, setSearch] = useState(String); // Search string
     const [error, setError] = useState<string>("");
-    const [showPurchaseFormModal, setShowPurchaseFormModal] = useState<boolean>(false);
-    const [toastMessage, setToastMessage] = useState<string | null>(null); // Toast Message
-    // console.log(selectedProductId);
+    const [showPurchaseFormModal, setShowPurchaseFormModal] = useState<boolean>(false); // Purchase Form modal
 
 
     const columns = [{
@@ -71,65 +68,57 @@ const PageProducts = () => {
         }, accessor: "guid"
     },]
 
-    const productListOriginal = useAppSelector((state) => state.products.productList);
-    const [productList, setProductList] = useState(Array<ProductItem>);
+    const productListOriginal = useAppSelector((state) => state.products.productList); // Reading the productList
+    const [productList, setProductList] = useState(Array<ProductItem>); // Creating a copy of ProductList array
     const reduxDispatch = useAppDispatch();
 
     useEffect(() => {
-        reduxDispatch(getProducts())
-
+        reduxDispatch(getProducts()) 
     }, [reduxDispatch])
 
 
     useEffect(() => {
         setProductList(productListOriginal.filter((item) => {
-            return item.name.toLowerCase().includes(search.toLowerCase())
+            return item.name.toLowerCase().includes(search.toLowerCase()) 
         }))
     }, [productListOriginal, search])
 
     const handleClose = () => {
-        setShow(false);
+        setShow(false); // Hide the delete modal
         setSelectedProductId(null);
     };
 
     const handleDelete = () => {
         if (selectedProductId) {
-            console.log(selectedProductId);
             reduxDispatch(deleteProduct(selectedProductId))
                 .then((data) => {
                     if (data.payload.data.status === 200) {
-                        reduxDispatch(showMessage("Product Deleted"));
-                        reduxDispatch(getProducts())
+                        reduxDispatch(showMessage("Product Deleted")); // Setting the toast message 
+                        reduxDispatch(getProducts()) 
                         setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                            reduxDispatch(hideMessage()); // Hide the toast
                         }, 2000);
-                        handleClose();
+                        handleClose(); // Hide the delete modal
                     } else {
-                        reduxDispatch(showMessage(data.payload.data.message));
+                        reduxDispatch(showMessage(data.payload.data.message)); // Setting the error as toast
                         setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                            reduxDispatch(hideMessage()); // Hide the toast
                         }, 2000);
                     }
                 });
         }
-        handleClose();
+        handleClose(); // Hide the delete modal
     };
 
     const toggleFormModal = () => {
-        setShowFormModal(!showFormModal);
+        setShowFormModal(!showFormModal); // Hide the product form modal
         setSelectedProductId("");
     }
 
     const togglePurchaseFormModal = () => {
-        setShowPurchaseFormModal(!showPurchaseFormModal);
+        setShowPurchaseFormModal(!showPurchaseFormModal); // Hide the purchase form modal
         setSelectedProductId("");
     }
-
-    const toggleToast = () => {
-        setShowToast(!showToast);
-        setSelectedProductId("");
-    }
-
 
 
     return (

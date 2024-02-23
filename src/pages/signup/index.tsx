@@ -11,7 +11,6 @@ const PageSignup = () => {
                 <img src='./logo.png' alt='LOGO' />
             </div>
             <Form/>
-           
         </div>
 
     );

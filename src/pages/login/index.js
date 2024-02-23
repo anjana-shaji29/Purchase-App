@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/authSlice.ts';
 import "./index.scss";
 import { Link } from 'react-router-dom';
+import { hideMessage, showMessage } from '../../redux/toastSlice.ts';
 
 const reducer = (state, action) => {
     return {
@@ -20,7 +21,7 @@ const PageLogin = () => {
     const reduxDispatch = useDispatch();
     const [state, dispatch] = useReducer(reducer, initialState);
     const { username, password } = state;
-    const [error, setError] = useState('');
+   
 
 
     const loginFn = e => {
@@ -29,7 +30,10 @@ const PageLogin = () => {
             .then(
                 data => {
                     if (data.payload.data.status !== 200) {
-                        setError(data.payload.data.message);
+                        reduxDispatch( showMessage(data.payload.data.message)); // Setting the error as toast
+                        setTimeout(() => {
+                            reduxDispatch(hideMessage()); // Hiding the toast
+                        }, 2000);
 
                     }
                 }
@@ -59,7 +63,7 @@ const PageLogin = () => {
                     <button className='btn-primary' type="submit">Login</button>
                 </div>
             </form>
-            {error && <div className="error-message"> {error} </div>}
+           
         </div>
     );
 };

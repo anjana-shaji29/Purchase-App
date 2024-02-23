@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
 
 const Header = () => {
 
-    const [currentPath, setCurrentPath] = useState(window.location.pathname);
+    const [currentPath, setCurrentPath] = useState(window.location.pathname); // Reading the current path 
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { userDetails } = useAppSelector((state) => state.auth);
@@ -16,12 +16,12 @@ const Header = () => {
     const handleLogOut = () => {
         dispatch(logOut())
         setTimeout(() => {
-            navigate('/');
+            navigate('/'); // Navigating to the login 
         }, 100)
     }
 
     const handleNavLinkClick = (path) => {
-        setCurrentPath(path);
+        setCurrentPath(path); // Setting the curent path
     }
 
 

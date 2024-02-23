@@ -40,9 +40,9 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const { name, details, image, imageName, count } = state;
     const reduxDispatch = useAppDispatch();
-    const productList = useAppSelector((state) => state.products.productList);
+    const productList = useAppSelector((state) => state.products.productList); // Reading the productList
     const imgUrl = "https://info-shop-now.vijee.in/";
-    const [error, setError] = useState<string>('');
+    const [error, setError] = useState<string>(''); // Error 
 
 
     const handleProductSubmit = (e) => {
@@ -55,18 +55,18 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
                 .then(data => {
 
                     if (data.payload.data.status === 200) {
-                        onHide();
-                        reduxDispatch(showMessage("Product Updated"));
-                        reduxDispatch(getProducts())
+                        onHide(); // Hide the product form
+                        reduxDispatch(showMessage("Product Updated")); // Setting the toast message
+                        reduxDispatch(getProducts()) // Displaying the ProductList
                             setTimeout(() => {
-                              reduxDispatch(hideMessage());
+                              reduxDispatch(hideMessage()); // Hide the toast 
                             }, 2000);
 
                     } else {
-                        onHide();
-                        reduxDispatch(showMessage(data.payload.data.message));
+                        onHide(); // Hide the product form
+                        reduxDispatch(showMessage(data.payload.data.message)); // Setting the error as toast
                         setTimeout(() => {
-                          reduxDispatch(hideMessage());
+                          reduxDispatch(hideMessage()); // Hide the toast
                         }, 2000);
                     }
 
@@ -77,18 +77,18 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
 
                     if (data.payload.data.status === 200) {
 
-                        onHide();
-                        reduxDispatch(showMessage("Product Added"));
-                        reduxDispatch(getProducts())
+                        onHide(); // Hide the product form
+                        reduxDispatch(showMessage("Product Added")); // Setting the toast message
+                        reduxDispatch(getProducts()) // Displaying the ProductList
                             setTimeout(() => {
-                              reduxDispatch(hideMessage());
+                              reduxDispatch(hideMessage()); // Hide the toast
                             }, 2000);
 
                     } else {
                         onHide();
-                        reduxDispatch(showMessage(data.payload.data.message));
+                        reduxDispatch(showMessage(data.payload.data.message));  // Setting the error as toast
                         setTimeout(() => {
-                          reduxDispatch(hideMessage());
+                          reduxDispatch(hideMessage()); // Hide the toast
                         }, 2000);
                     }
 
@@ -99,10 +99,10 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
 
     useEffect(() => {
         if (guid) {
-            const product = productList.find((product) => product.guid === guid);
+            const product = productList.find((product) => product.guid === guid); // Finding the product by comparing the passed guid & each product guid 
             if (product) {
-                dispatch({
-                    name: product.name,
+                dispatch({              // Dispatching the details if product found
+                    name: product.name, 
                     details: product.details,
                     count: product.count,
                     image: `${imgUrl}${product.image}`,

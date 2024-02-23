@@ -13,7 +13,7 @@ const PagePurchases = () => {
     const reduxDispatch = useAppDispatch();
     const imgUrl = "https://info-shop-now.vijee.in/";
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
-    const [show, setShow] = useState<boolean>(false);
+    const [show, setShow] = useState<boolean>(false); // Delete Modal
     const purchaseList = useAppSelector((state) => state.purchases.purchaseList);
 
 
@@ -24,20 +24,19 @@ const PagePurchases = () => {
 
     const handleDelete = () => {
         if (selectedProductId) {
-            console.log(selectedProductId);
             reduxDispatch(deletePurchase(selectedProductId))
                 .then((data) => {
                     if (data.payload.data.status === 200) {
-                        reduxDispatch(showMessage("Purchase Deleted"));
+                        reduxDispatch(showMessage("Purchase Deleted")); // Setting toast message 
                         reduxDispatch(getPurchases())
                         setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                            reduxDispatch(hideMessage()); // Hide the toast message 
                         }, 2000);
-                        handleClose();
+                        handleClose(); // Hide the delete modal
                     } else {
                         reduxDispatch(showMessage(data.payload.data.message));
                         setTimeout(() => {
-                            reduxDispatch(hideMessage());
+                            reduxDispatch(hideMessage());  // Hide the toast message 
                         }, 2000);
                     }
                 });
@@ -46,7 +45,7 @@ const PagePurchases = () => {
     };
 
     const handleClose = () => {
-        setShow(false);
+        setShow(false); // Hide the delete modal
         setSelectedProductId(null);
     };
 

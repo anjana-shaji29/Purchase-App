@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 const MobileHeader = () => {
     const reduxDispatch = useAppDispatch();
     const { userDetails } = useAppSelector(state => state.auth);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // Mobile menu 
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);

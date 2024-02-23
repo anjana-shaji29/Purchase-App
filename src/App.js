@@ -13,12 +13,9 @@ import Toast from 'react-bootstrap/Toast';
 import { useAppSelector } from './redux/hooks.ts';
 
 
-
 function App() {
-
-  const { userDetails, jwt } = useSelector(state => state.auth);
-  const { message, show } = useAppSelector(state => state.toast);
-
+  const { userDetails, jwt } = useSelector(state => state.auth); // userDetails & jwt
+  const { message, show } = useAppSelector(state => state.toast); // Toast visibility & message
 
   return (
 
