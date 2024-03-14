@@ -9,8 +9,6 @@ import Modal from 'react-bootstrap/Modal';
 import Form from '../../components/Form/index.tsx';
 import { showMessage, hideMessage } from '../../redux/toastSlice.ts';
 
-
-
 const PageUsers = () => {
 
     const [show, setShow] = useState<boolean>(false); // Delete modal
@@ -102,8 +100,7 @@ const PageUsers = () => {
 
             <Table columns={columns} data={userList} />
 
-            <Modal show={show} onHide={handleClose}
-            >
+            <Modal show={show} onHide={handleClose}>
 
                 <Modal.Header closeButton onClick={handleClose}>
                     <Modal.Title> Buy It Now </Modal.Title>

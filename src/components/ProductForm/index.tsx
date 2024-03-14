@@ -137,10 +137,8 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
 
     const handleImage = (e) => {
         const file = e.target.files[0];
-        // console.log(file);
         const filename = file.name;
         dispatch({ imageName: filename });
-        // console.log(filename);
         readFile(file);
 
     }
@@ -157,7 +155,7 @@ const ProductForm = ({ onHide = () => { }, guid}) => {
                 <label className='form-group'>
                     <div className='form-label'>  Image </div>
                     {guid ? <img src={image} alt={image} style={{ maxWidth: "100px" }} /> :
-                        <input className='form-control password' type="file" onChange={handleImage} placeholder="" />}
+                        <input className='form-control password' type="file" onChange={handleImage} placeholder="" required/>}
                 </label>
                 <label className='form-group'>
                     <div className='form-label'>  Details </div>

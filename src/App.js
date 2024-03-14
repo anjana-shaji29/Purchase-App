@@ -14,6 +14,7 @@ import { useAppSelector } from './redux/hooks.ts';
 
 
 function App() {
+
   const { userDetails, jwt } = useSelector(state => state.auth); // userDetails & jwt
   const { message, show } = useAppSelector(state => state.toast); // Toast visibility & message
 
@@ -35,10 +36,10 @@ function App() {
           <Route path="/*" element={<div> 404 Not found </div>} />
         </>}
       </Routes>
-{ show && 
-      <Toast className='toast-container'>
-        <Toast.Body>  {message}  </Toast.Body>
-      </Toast> }
+      {show &&
+        <Toast className='toast-container'>
+          <Toast.Body>  {message}  </Toast.Body>
+        </Toast>}
 
     </BrowserRouter>
   );

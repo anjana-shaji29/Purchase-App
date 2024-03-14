@@ -11,7 +11,7 @@ const Layout = () => {
                 <Header />
                 <MobileHeader />
             </header>
-            <section> <Outlet /></section>
+            <section> <Outlet /> </section>
         </div>
     );
 };

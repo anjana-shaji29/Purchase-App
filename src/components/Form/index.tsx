@@ -3,7 +3,7 @@ import "./index.scss";
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../../redux/authSlice.ts';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks.ts';
-import { getUsers } from '../../redux/userSlice.ts';
+import { getUsers, addUser } from '../../redux/userSlice.ts';
 import { showMessage, hideMessage } from '../../redux/toastSlice.ts';
 
 
@@ -54,7 +54,7 @@ const Form = ({ onHide = () => { } }) => {
 
             if (userDetails && userDetails.type === 1) { // Checking if the userdetails exist & is admin 
 
-                reduxDispatch(signup({ name: `${firstname} ${lastname}`, username, password, type }))
+                reduxDispatch(addUser({ name: `${firstname} ${lastname}`, username, password, type, status:1}))
                     .then(data => {
 
                         if (data.payload.data.status === 200) {

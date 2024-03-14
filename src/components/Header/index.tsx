@@ -21,7 +21,7 @@ const Header = () => {
     }
 
     const handleNavLinkClick = (path) => {
-        setCurrentPath(path); // Setting the curent path
+        setCurrentPath(path); // Setting the current path
     }
 
 

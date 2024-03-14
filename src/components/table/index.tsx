@@ -51,7 +51,7 @@ const Table = ({ columns, data }: TableProps) => {
                         <div className='th-div'>
                             {column.sortable && sortColumn ? sortColumn === column.accessor ? (<span className="material-symbols-outlined" onClick={() => toggleSortType(column)}> {sortType === 'asc' ? "arrow_upward" : "arrow_downward"} </span>) :
                                 <span className="material-symbols-outlined" style={{ color: "grey" }} onClick={() => toggleSortType(column)} > swap_vert  </span> : null}
-                            <span>{column.label}</span>
+                            <span> {column.label} </span>
                         </div>
                     </th>
                 })}

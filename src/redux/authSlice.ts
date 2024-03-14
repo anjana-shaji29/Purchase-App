@@ -36,7 +36,6 @@ export const authSlice = createSlice({
     initialState: {
       userDetails: initialUserDetails,
       jwt: null,
-      
     },
     reducers: {
       logOut: (state) => {
